@@ -1,0 +1,482 @@
+<?php
+header("Content-Type: text/xsl");
+
+$referer = $_GET["r"];
+if($referer==null) $referer = $_SERVER["HTTP_REFERER"]; 
+
+function incxslt($str) {
+<<<<<<< .mine
+  echo "  <xsl:import href=\"/xslt/$str\"/>\n";
+=======
+  echo "  <xsl:import href=\"/tw.rpi.edu/styles/$str\"/>\n";
+>>>>>>> .r602
+}
+
+function call($str) {
+  echo "    <xsl:call-template name=\"$str\">\n";
+  echo "      <xsl:with-param name=\"admin\" select=\"\$admin\"/>\n";
+  echo "      <xsl:with-param name=\"node\" select=\"current()\"/>\n";
+  echo "      <xsl:with-param name=\"embed\" select=\"\$embed\"/>\n";
+  echo "    </xsl:call-template>\n";
+}
+
+$embed = false;
+
+if($_GET["q"]==null||$_GET["q"]=="empty.xsl") {
+  readfile("empty.xsl");
+  echo "</xsl:stylesheet>";
+}
+else if($_GET["q"]=="meeting-rss.xsl") {
+  readfile("empty.xsl");
+  incxslt("meeting-rss");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  call("meeting-rss");
+  echo "  </xsl:template>\n";
+}
+else if($_GET["q"]=="person.xsl"||$_GET["q"]=="person-embed.xsl") {
+  readfile("empty.xsl");
+  incxslt("section-general.xsl");
+  incxslt("person-common.xsl");
+  incxslt("person-header.xsl");
+  incxslt("person-bio.xsl");
+  //incxslt("person-infobox.xsl");
+  //incxslt("person-news.xsl");
+  //incxslt("person-occupation.xsl");
+  incxslt("person-affiliates.xsl");
+  incxslt("person-projects.xsl");
+  //incxslt("person-interests.xsl");
+  incxslt("author-publications.xsl");
+  incxslt("author-presentations.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\" mode=\"default\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"person\" about=\"{\$uri}\" typeof=\"foaf:Person\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  echo "      <link href=\"/css/person.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call("person-header");
+  call("person-bio");
+  call("person-affiliates");
+  call("author-publications");
+  call("author-presentations");
+  call("person-projects");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class = "person";
+  $type = "foaf:Person";
+}
+/*
+else if($_GET["q"]=="person-header.xsl") {
+  readfile("empty.xsl");
+  incxslt("person-header.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"person\" about=\"{\$uri}\" typeof=\"foaf:Person\">\n";
+  call("person-header");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class = "person";
+  $type = "foaf:Person";
+  $embed = true;
+}
+else if($_GET["q"]=="person-bio.xsl") {
+  readfile("empty.xsl");
+  incxslt("person-bio.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"person\" about=\"{\$uri}\" typeof=\"foaf:Person\">\n";
+  call("person-bio");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class = "person";
+  $type = "foaf:Person";
+  $embed = true;
+}
+else if($_GET["q"]=="person-affiliates.xsl") {
+  readfile("empty.xsl");
+  incxslt("person-affiliates.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"person\" about=\"{\$uri}\" typeof=\"foaf:Person\">\n";
+  call("person-affiliates");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class = "person";
+  $type = "foaf:Person";
+  $embed = true;
+}
+else if($_GET["q"]=="author-publications.xsl") {
+  readfile("empty.xsl");
+  incxslt("author-publications.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"person\" about=\"{\$uri}\" typeof=\"foaf:Person\">\n";
+  call("author-publications");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class = "person";
+  $type = "foaf:Person";
+  $embed = true;
+}
+else if($_GET["q"]=="author-presentations.xsl") {
+  readfile("empty.xsl");
+  incxslt("author-presentations.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"person\" about=\"{\$uri}\" typeof=\"foaf:Person\">\n";
+  call("author-presentations");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class = "person";
+  $type = "foaf:Person";
+  $embed = true;
+}
+else if($_GET["q"]=="person-projects.xsl") {
+  readfile("empty.xsl");
+  incxslt("person-projects.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"person\" about=\"{\$uri}\" typeof=\"foaf:Person\">\n";
+  call("person-projects");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class = "person";
+  $type = "foaf:Person";
+  $embed = true;
+}
+else if($_GET["q"]=="person-interests.xsl") {
+  readfile("empty.xsl");
+  incxslt("person-interests.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"person\" about=\"{\$uri}\" typeof=\"foaf:Person\">\n";
+  call("person-interests");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class = "person";
+  $type = "foaf:Person";
+  $embed = true;
+}
+*/
+else if($_GET["q"]=="theme.xsl"||$_GET["q"]=="theme-embed.xsl") {
+  readfile("empty.xsl");
+  incxslt("theme-header.xsl");
+  incxslt("theme-description.xsl");
+  incxslt("theme-projects.xsl");
+  incxslt("theme-publications.xsl");
+  incxslt("theme-presentations.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\" mode=\"default\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n"; 
+  echo "    <div class=\"theme\" about=\"{$referrer}\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  echo "      <link href=\"/css/theme.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call("section-theme-header");
+  call("section-theme-description");
+  call("section-theme-projects");
+  call("section-theme-publications");
+  call("section-theme-presentations");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class = "theme";
+}
+else if($_GET["q"]=="researcher.xsl") {
+  readfile("empty.xsl");
+  incxslt("person-header.xsl");
+  incxslt("person-infobox.xsl");
+  incxslt("person-bio.xsl");
+  incxslt("person-news.xsl");
+  incxslt("author-publications.xsl");
+  incxslt("researcher-projects.xsl");
+  incxslt("person-affiliates.xsl");
+  incxslt("person-interests.xsl");
+  echo "</xsl:stylesheet>";
+}
+else if($_GET["q"]=="author.xsl") {
+  readfile("empty.xsl");
+  incxslt("person-header.xsl");
+  incxslt("person-infobox.xsl");
+  incxslt("person-bio.xsl");
+  incxslt("person-news.xsl");
+  incxslt("author-publications.xsl");
+  incxslt("person-affiliates.xsl");
+  incxslt("person-interests.xsl");
+  echo "</xsl:stylesheet>";
+}
+<<<<<<< .mine
+/*
+else if($_GET["q"]=="publication.xsl"||$_GET["q"]=="publication-embed.xsl") {
+  readfile("empty.xsl");
+  incxslt("publication-header.xsl");
+  incxslt("publication-citation.xsl");
+  incxslt("publication-abstract.xsl");
+  incxslt("publication-themes.xsl");
+  incxslt("publication-projects.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"publication\" about=\"{\$uri}\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  echo "      <link href=\"/css/publication.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call("section-publication-header");
+  call("section-publication-citation");
+  call("section-publication-abstract");
+  call("section-publication-themes");
+  call("section-publication-projects");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class="publication";
+}
+*/
+else if($_GET["q"]=="organization.xsl"||$_GET["q"]=="organization-embed.xsl") {
+  readfile("empty.xsl");
+  incxslt("organization-infobox.xsl");
+  incxslt("organization-header.xsl");
+  incxslt("organization-description.xsl");
+  incxslt("organization-sponsored-projects.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\" mode=\"default\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"organization\" about=\"{\$uri}\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  echo "      <link href=\"/css/organization.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call("organization-infobox");
+  call("organization-header");
+  call("organization-description");
+  echo "    <br />\n";
+  call("organization-sponsored-projects");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class="organization";
+}
+else if($_GET["q"]=="project.xsl"||$_GET["q"]=="project-embed.xsl") {
+  readfile("empty.xsl");
+  incxslt("project-themes.xsl");
+  incxslt("project-investigator.xsl");
+  incxslt("project-description.xsl");
+  incxslt("project-concepts.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\" mode=\"default\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"project\" about=\"{\$uri}\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  echo "      <link href=\"/css/project.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call("project-themes");
+  call("project-investigator");
+  call("project-concepts");
+  call("project-description");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class="project";
+}
+else if($_GET["q"]) {
+  $template = substr($_GET["q"],0,strlen($_GET["q"])-4);
+  readfile("empty.xsl");
+  incxslt($_GET["q"]);
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\" mode=\"default\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div about=\"{\$uri}\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call($template);
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $embed = true;
+}
+if(0==preg_match("/.*-embed.xsl$/",$_GET["q"])&&!$embed) {
+=======
+else if($_GET["q"]=="publication.xsl"||$_GET["q"]=="publication-embed.xsl") {
+  readfile("empty.xsl");
+  incxslt("publication-header.xsl");
+  incxslt("publication-citation.xsl");
+  incxslt("publication-abstract.xsl");
+  incxslt("publication-themes.xsl");
+  incxslt("publication-projects.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"publication\" about=\"{\$uri}\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  echo "      <link href=\"/css/publication.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call("section-publication-header");
+  call("section-publication-citation");
+  call("section-publication-abstract");
+  call("section-publication-themes");
+  call("section-publication-projects");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class="publication";
+}
+else if($_GET["q"]=="organization.xsl"||$_GET["q"]=="organization-embed.xsl") {
+  readfile("empty.xsl");
+  incxslt("organization-infobox.xsl");
+  incxslt("organization-header.xsl");
+  incxslt("organization-description.xsl");
+  incxslt("organization-sponsored-projects.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"organization\" about=\"{\$uri}\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  echo "      <link href=\"/css/organization.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call("organization-infobox");
+  call("organization-header");
+  call("organization-description");
+  echo "    <br />\n";
+  call("organization-sponsored-projects");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class="organization";
+}
+else if($_GET["q"]=="project.xsl"||$_GET["q"]=="project-embed.xsl") {
+  readfile("empty.xsl");
+  incxslt("project-themes.xsl");
+  incxslt("project-investigator.xsl");
+  incxslt("project-description.xsl");
+  incxslt("project-concepts.xsl");
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div class=\"project\" about=\"{\$uri}\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  echo "      <link href=\"/css/project.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call("project-themes");
+  call("project-investigator");
+  call("project-concepts");
+  call("project-description");
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $class="project";
+}
+else if($_GET["q"]) {
+  $template = substr($_GET["q"],0,strlen($_GET["q"])-4);
+  readfile("empty.xsl");
+  incxslt($_GET["q"]);
+  echo "  <xsl:template match=\"*[@rdf:about='$referer']\">\n";
+  echo "    <xsl:param name=\"admin\"/>\n";
+  echo "    <xsl:param name=\"embed\"/>\n";
+  echo "    <xsl:param name=\"uri\"/>\n";
+  echo "    <div about=\"{\$uri}\">\n";
+  echo "      <link href=\"/css/objects.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
+  call($template);
+  echo "    </div>\n";
+  echo "  </xsl:template>\n";
+  $embed = true;
+}
+if(0==preg_match("/.*-embed.xsl$/",$_GET["q"])&&!$embed) {
+>>>>>>> .r602
+?>
+  <xsl:template match="/">
+    <xsl:variable name="admin" select="false()"/>
+    <html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:time="http://www.w3.org/2006/time#"
+	  xmlns:tw="http://tw.rpi.edu/schema/">
+      <body class="twqueryresult <?php echo $class; ?>">
+<<<<<<< .mine
+	<link type="text/css" href="/css/objects.css" rel="stylesheet"/>
+        <script type="text/javascript" src="/js/layout.js"></script>
+=======
+	<link type="text/css" href="/css/objects.css" rel="stylesheet"/>
+        <script type="text/javascript" src="/tw.rpi.edu/js/layout.js"></script>
+>>>>>>> .r602
+	<xsl:apply-templates>
+	  <xsl:with-param name="admin" select="$admin"/>
+	  <xsl:with-param name="uri"><?php echo $referer; ?></xsl:with-param>
+	  <xsl:with-param name="embed" select="false()"/>
+	</xsl:apply-templates>
+      </body>
+    </html>
+  </xsl:template>
+  <xsl:template match="rdf:RDF">
+    <xsl:param name="admin"/>
+    <xsl:param name="uri"/>
+    <xsl:param name="embed"/>
+<?php
+  }
+  else {
+?>
+  <xsl:template match="/">
+    <xsl:variable name="admin" select="false()"/>
+<<<<<<< .mine
+    <div class="twqueryresult <?php echo $class; ?>" about="<?=$referer?>">
+      <link rel="stylesheet" type="text/css" href="/css/objects.css"/>
+      <script type="text/javascript" src="/js/layout.js"><xsl:comment/></script>
+=======
+    <div class="twqueryresult <?php echo $class; ?>" about="<?=$referer?>">
+      <link rel="stylesheet" type="text/css" href="/css/objects.css"/>
+      <script type="text/javascript" src="/tw.rpi.edu/js/layout.js"><xsl:comment/></script>
+>>>>>>> .r602
+      <xsl:apply-templates>
+	<xsl:with-param name="admin" select="$admin"/>
+	<xsl:with-param name="uri"><?php echo $referer; ?></xsl:with-param>
+	<xsl:with-param name="embed" select="true()"/>
+      </xsl:apply-templates>
+    </div>
+  </xsl:template>
+  <xsl:template match="rdf:RDF">
+    <xsl:param name="admin"/>
+    <xsl:param name="uri"/>
+    <xsl:param name="embed"/>
+<?php
+ }
+<<<<<<< .mine
+/* if($class=="person") {*/
+   echo "    <xsl:apply-templates select=\"//*[@rdf:about=\$uri]\" mode=\"default\">\n";
+=======
+/* if($class=="person") {*/
+   echo "    <xsl:apply-templates select=\"//*[@rdf:about=\$uri]\">\n";
+>>>>>>> .r602
+   echo "      <xsl:with-param name=\"admin\" select=\"\$admin\"/>\n";
+   echo "      <xsl:with-param name=\"embed\" select=\"\$embed\"/>\n";
+   echo "      <xsl:with-param name=\"uri\" select=\"\$uri\"/>\n";
+   echo "    </xsl:apply-templates>\n";
+/* }
+if($class=="theme") {
+  echo "    <xsl:apply-templates select=\"//*[@rdf:about=\$uri]\">\n";
+  echo "      <xsl:with-param name=\"admin\" select=\"\$admin\"/>\n";
+  echo "      <xsl:with-param name=\"embed\" select=\"\$embed\"/>\n";
+  echo "      <xsl:with-param name=\"uri\" select=\"\$uri\"/>\n";
+  echo "    </xsl:apply-templates>\n";
+}
+if($class=="publication") {
+  echo "    <xsl:apply-templates select=\"//*[@rdf:about=\$uri]\">\n";
+  echo "      <xsl:with-param name=\"admin\" select=\"\$admin\"/>\n";
+  echo "      <xsl:with-param name=\"embed\" select=\"\$embed\"/>\n";
+  echo "      <xsl:with-param name=\"uri\" select=\"\$uri\"/>\n";
+  echo "    </xsl:apply-templates>\n";
+}
+if($class=="organization") {
+  echo "    <xsl:apply-templates select=\"//*[@rdf:about=\$uri]\">\n";
+  echo "      <xsl:with-param name=\"admin\" select=\"\$admin\"/>\n";
+  echo "      <xsl:with-param name=\"embed\" select=\"\$embed\"/>\n";
+  echo "      <xsl:with-param name=\"uri\" select=\"\$uri\"/>\n";
+  echo "    </xsl:apply-templates>\n";
+}
+*/
+?>
+  </xsl:template>
+</xsl:stylesheet>

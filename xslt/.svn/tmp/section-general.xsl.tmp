@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<xsl:stylesheet
+   version="1.0"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns="http://www.w3.org/1999/xhtml"
+>
+  <xsl:template name="header">
+    <xsl:param name="text"/>
+    <xsl:param name="stylesheet"/>
+    <h3 class="header"><xsl:value-of select="$text"/>
+      <span class="hidden">
+	Move:
+	<a href="#" onclick="moveSection('{$stylesheet}','top')">
+<<<<<<< .mine
+	  <img src="/images/move-top.png" alt="top"/>
+=======
+	  <img src="/tw.rpi.edu/images/move-top.png" alt="top"/>
+>>>>>>> .r602
+	</a>
+	<a href="#" onclick="moveSection('{$stylesheet}','up')">
+<<<<<<< .mine
+	  <img src="/images/move-up.png" alt="up"/>
+=======
+	  <img src="/tw.rpi.edu/images/move-up.png" alt="up"/>
+>>>>>>> .r602
+	</a>
+	<a href="#" onclick="moveSection('{$stylesheet}','down')">
+<<<<<<< .mine
+	  <img src="/images/move-down.png" alt="down"/>
+=======
+	  <img src="/tw.rpi.edu/images/move-down.png" alt="down"/>
+>>>>>>> .r602
+	</a>
+	<a href="#" onclick="moveSection('{$stylesheet}','bottom')">
+<<<<<<< .mine
+	  <img src="/images/move-bottom.png" alt="bottom"/>
+=======
+	  <img src="/tw.rpi.edu/images/move-bottom.png" alt="bottom"/>
+>>>>>>> .r602
+	</a>
+      </span>
+    </h3>
+  </xsl:template>
+</xsl:stylesheet>

@@ -1,0 +1,45 @@
+.papers-list
+{ 
+  border-collapse: collapse;
+  /*font-size: 10pt;*/
+  max-width: 100%;
+  width: auto;
+ }
+
+.papers-list tr:hover
+{ 
+   background-color: #ffddff;
+}
+
+.papers-list td { 
+  padding: 10px;
+	color: black;
+}
+
+.papers-list a img
+ { 
+   border: 0;
+ }
+
+.papers-list td.hidden
+ { 
+   width: 32px;
+   vertical-align: top;
+   visibility: hidden;
+ }
+
+.papers-list tr:hover td.hidden
+ { 
+   visibility: visible;
+ }
+
+.papers-list td a {
+	color: black;
+	text-decoration: underline;
+}
+
+.papers-list td a:hover {
+	color: #568CAE;
+}
+
+

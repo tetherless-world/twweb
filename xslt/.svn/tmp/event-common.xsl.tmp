@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns:exsl="http://exslt.org/common"
+		xmlns:fn="http://www.w3.org/2005/xpath-functions"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:foaf="http://xmlns.com/foaf/0.1/"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+<<<<<<< .mine
+
+  <xsl:template match="tw:Event|*[rdf:type/@rdf:resource='&tw;Event']"
+                mode="link">
+    <xsl:variable name="page">
+      <xsl:call-template name="get-event-page">
+        <xsl:with-param name="event" select="current()"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <span about="{@rdf:about}" typeof="tw:Event">
+      <a href="{$page}" rel="foaf:page">
+        <xsl:call-template name="event-name">
+          <xsl:with-param name="event" select="current()"/>
+          <xsl:with-param name="root" select="/"/>
+        </xsl:call-template>
+      </a>
+    </span>
+  </xsl:template>
+
+  <xsl:template name="get-event-page">
+    <xsl:param name="event"/>
+    <xsl:choose>
+      <xsl:when test="$event/foaf:page/@rdf:resource">
+	<xsl:value-of select="$event/foaf:page/@rdf:resource"/>
+      </xsl:when>
+      <xsl:when test="$event/foaf:page/*/@rdf:about">
+	<xsl:value-of select="$event/foaf:page/*/@rdf:about"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="$event/@rdf:about"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+=======
+  <xsl:template name="get-event-page">
+    <xsl:param name="event"/>
+    <xsl:choose>
+      <xsl:when test="$event/foaf:page/@rdf:resource">
+	<xsl:value-of select="$event/foaf:page/@rdf:resource"/>
+      </xsl:when>
+      <xsl:when test="$event/foaf:page/*/@rdf:about">
+	<xsl:value-of select="$event/foaf:page/*/@rdf:about"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="$event/@rdf:about"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+>>>>>>> .r602
+  <xsl:template name="event-name">
+    <xsl:param name="event"/>
+    <xsl:param name="root"/>
+    <xsl:param name="traverse" select="true()"/>
+<<<<<<< .mine
+    <span typeof="tw:Event" about="{$event/@rdf:about}">
+      <span property="foaf:name">
+	<xsl:value-of select="$event/foaf:name"/>
+      </span>
+      <xsl:if test="$event/tw:inEvent and $traverse=true()">
+	<xsl:text> of the </xsl:text>
+	<span rel="tw:inEvent">
+	<xsl:choose>
+	  <xsl:when test="$event/tw:inEvent/@rdf:resource">
+	    <xsl:call-template name="event-name">
+	      <xsl:with-param name="event" select="$root//*[@rdf:about=$event/tw:inEvent/@rdf:resource]"/>
+	      <xsl:with-param name="root" select="$root"/>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:when test="$event/tw:inEvent/@rdf:nodeID">
+	    <xsl:call-template name="event-name">
+	      <xsl:with-param name="event" select="$root//*[@rdf:nodeID=$event/tw:inEvent/@rdf:nodeID]/*/.."/>
+	      <xsl:with-param name="root" select="$root"/>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:when test="$event/tw:inEvent/*">
+	    <xsl:call-template name="event-name">
+	      <xsl:with-param name="event" select="$event/tw:inEvent/*"/>
+=======
+    <span typeof="Event" about="{$event/@rdf:about}">
+      <span property="foaf:name">
+	<xsl:value-of select="$event/foaf:name"/>
+      </span>
+      <xsl:if test="$event/tw:inEvent and $traverse=true()">
+	<xsl:text> of the </xsl:text>
+	<span rel="tw:inEvent">
+	<xsl:choose>
+	  <xsl:when test="$event/tw:inEvent/@rdf:resource">
+	    <xsl:call-template name="event-name">
+	      <xsl:with-param name="event" select="$root//*[@rdf:about=$event/tw:inEvent/@rdf:resource]"/>
+	      <xsl:with-param name="root" select="$root"/>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:when test="$event/tw:inEvent/@rdf:nodeID">
+	    <xsl:call-template name="event-name">
+	      <xsl:with-param name="event" select="$root//*[@rdf:nodeID=$event/tw:inEvent/@rdf:nodeID]/*/.."/>
+	      <xsl:with-param name="root" select="$root"/>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:when test="$event/tw:inEvent/*">
+	    <xsl:call-template name="event-name">
+	      <xsl:with-param name="event" select="$event/tw:inEvent/*"/>
+>>>>>>> .r602
+	    <xsl:with-param name="root" select="$root"/>
+	    </xsl:call-template>
+	  </xsl:when>
+	</xsl:choose>
+	</span>
+      </xsl:if>
+    </span>
+  </xsl:template>
+</xsl:stylesheet>

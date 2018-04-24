@@ -1,0 +1,41 @@
+.presentations-list
+{ 
+  border-collapse: collapse;
+  /*font-size: 10pt;*/
+  max-width: 100%;
+  width: auto;
+ }
+
+.presentations-list tr:hover
+{ 
+   background-color: #ffddff;
+ }
+
+.presentations-list td
+{ 
+  padding: 6px;
+ }
+
+.presentations-list a
+{ 
+  text-decoration: none;
+  /*font-size: 10pt;*/
+ }
+
+.presentations-list a img
+ { 
+   border: 0;
+ }
+
+.presentations-list td.hidden
+ { 
+   width: 32px;
+   vertical-align: top;
+   visibility: hidden;
+ }
+
+.presentations-list tr:hover td.hidden
+ { 
+   visibility: visible;
+ }
+

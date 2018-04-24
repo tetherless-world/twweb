@@ -1,0 +1,32 @@
+<?php
+header("Content-Type: text/plain");
+?>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX time: <http://www.w3.org/2006/time#>
+
+SELECT ?pubURI ?pubPage ?pubTitle ?pubYear ?authorURI ?authorPage ?authorIndex ?authorFirst ?authorLast ?eventURI ?eventPage ?eventName
+WHERE {
+	?pubURI rdf:type tw:Publication .
+  ?role rdf:type tw:Author .
+  ?pubURI tw:hasAgentWithRole ?role .
+	?pubURI dc:title ?pubTitle .
+  ?authorURI tw:hasRole ?role .
+  OPTIONAL {
+  ?authorURI foaf:firstName ?authorFirst .
+  ?authorURI foaf:lastName ?authorLast .
+  ?authorURI tw:page ?authorPage
+  }
+  ?role tw:index ?authorIndex .
+  ?pubURI tw:hasPublicationDate ?instant .
+	?instant time:inXSDDateTime ?pubYear .
+  ?pubURI tw:hasPublicationEvent ?eventURI .
+  ?eventURI foaf:name ?eventName .
+  ?pubURI tw:page ?pubPage .
+  ?eventURI tw:page ?eventPage .
+}

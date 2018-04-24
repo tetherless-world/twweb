@@ -1,0 +1,121 @@
+<<<<<<< .mine
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+  <!ENTITY foaf "http://xmlns.com/foaf/0.1/">
+]>
+<xsl:stylesheet
+   version="1.0"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:tw="&tw;"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:foaf="&foaf;"
+   xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:include href="/xslt/image-common.xsl"/>
+  <xsl:template name="professor-list-item">
+    <xsl:param name="admin"/>
+    <xsl:param name="node"/>
+    <xsl:param name="bio" select="true()"/>
+	<xsl:param name="call-image-url" select="true()"/>
+    <tr class="person-list-item" about="{$node/@rdf:about}" label="{$node/foaf:firstName} {$node/foaf:lastName}">
+      <td class="center" valign="top">
+	<a href="{$node/@rdf:about}">
+	<xsl:choose>
+	  <xsl:when test="$node/foaf:depiction/@rdf:resource">
+	    <xsl:call-template name="place-image">
+
+<xsl:value-of select="//*[@rdf:about=$node/foaf:depiction/@rdf:resource]|//*[@rdf:about=$node/foaf:depiction/rdfs:Resource/@rdf:about]"/>
+	      <xsl:with-param name="image" select="//*[@rdf:about=$node/foaf:depiction/@rdf:resource]|//*[@rdf:about=$node/foaf:depiction/rdfs:Resource/@rdf:about]"/>
+	      <xsl:with-param name="class">thumb</xsl:with-param>
+		  <xsl:with-param name="call-image-url-template" select="$call-image-url"/>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:when test="$node/foaf:depiction/foaf:Image|$node/foaf:depiction/*/rdf:type[@rdf:resource='&foaf;Image']/..|$node/foaf:depiction/*/rdf:type[@rdf:about='&foaf;Image']/../..">
+		<xsl:call-template name="place-image">
+	      <xsl:with-param name="image" select="$node/foaf:depiction/foaf:Image|$node/foaf:depiction/*/rdf:type[@rdf:resource='&foaf;Image']/..|$node/foaf:depiction/*/rdf:type[@rdf:about='&foaf;Image']/../.."/>
+	      <xsl:with-param name="class">thumb</xsl:with-param>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <img class="thumb" src="/tw.rpi.edu/img_avtrs/Unknown_AVTR.jpg"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+	</a>
+      </td>
+      <td>
+	<a href="{$node/@rdf:about}">
+	<xsl:value-of select="$node/foaf:firstName"/>
+	<xsl:text> </xsl:text>
+	<xsl:value-of select="$node/foaf:lastName|$node/foaf:surname"/><br />
+	</a>
+	<xsl:if test="$bio=true()">
+	<xsl:value-of select="tw:hasBio"/>
+	</xsl:if>
+      </td>
+    </tr>
+  </xsl:template>
+</xsl:stylesheet>
+=======
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+  <!ENTITY foaf "http://xmlns.com/foaf/0.1/">
+]>
+<xsl:stylesheet
+   version="1.0"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:tw="&tw;"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:foaf="&foaf;"
+   xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:include href="/tw.rpi.edu/styles/image-common.xsl"/>
+  <xsl:template name="professor-list-item">
+    <xsl:param name="admin"/>
+    <xsl:param name="node"/>
+    <xsl:param name="bio" select="true()"/>
+	<xsl:param name="call-image-url" select="true()"/>
+    <tr class="person-list-item" about="{$node/@rdf:about}" label="{$node/foaf:firstName} {$node/foaf:lastName}">
+      <td class="center" valign="top">
+	<a href="{$node/@rdf:about}">
+	<xsl:choose>
+	  <xsl:when test="$node/foaf:depiction/@rdf:resource">
+	    <xsl:call-template name="place-image">
+
+<xsl:value-of select="//*[@rdf:about=$node/foaf:depiction/@rdf:resource]|//*[@rdf:about=$node/foaf:depiction/rdfs:Resource/@rdf:about]"/>
+	      <xsl:with-param name="image" select="//*[@rdf:about=$node/foaf:depiction/@rdf:resource]|//*[@rdf:about=$node/foaf:depiction/rdfs:Resource/@rdf:about]"/>
+	      <xsl:with-param name="class">thumb</xsl:with-param>
+		  <xsl:with-param name="call-image-url-template" select="$call-image-url"/>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:when test="$node/foaf:depiction/foaf:Image|$node/foaf:depiction/*/rdf:type[@rdf:resource='&foaf;Image']/..|$node/foaf:depiction/*/rdf:type[@rdf:about='&foaf;Image']/../..">
+		<xsl:call-template name="place-image">
+	      <xsl:with-param name="image" select="$node/foaf:depiction/foaf:Image|$node/foaf:depiction/*/rdf:type[@rdf:resource='&foaf;Image']/..|$node/foaf:depiction/*/rdf:type[@rdf:about='&foaf;Image']/../.."/>
+	      <xsl:with-param name="class">thumb</xsl:with-param>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <img class="thumb" src="/tw.rpi.edu/img_avtrs/Unknown_AVTR.jpg"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+	</a>
+      </td>
+      <td>
+	<a href="{$node/@rdf:about}">
+	<xsl:value-of select="$node/foaf:firstName"/>
+	<xsl:text> </xsl:text>
+	<xsl:value-of select="$node/foaf:lastName|$node/foaf:surname"/><br />
+	</a>
+	<xsl:if test="$bio=true()">
+	<xsl:value-of select="tw:hasBio"/>
+	</xsl:if>
+      </td>
+    </tr>
+  </xsl:template>
+</xsl:stylesheet>
+>>>>>>> .r602

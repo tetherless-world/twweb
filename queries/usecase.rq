@@ -1,0 +1,63 @@
+<?php
+include_once("common.php");
+
+if($_GET["uri"]) {
+  $instance = "<" . sanitize($_GET["uri"],false) . ">";
+}
+else if($_GET["i"]) {
+  $instance = "twi:" . sanitize($_GET["i"]);
+}
+else if($_GET["s"]) {
+  $instance = "tw:" . sanitize($_GET["s"]);
+}
+else {
+  twerror();
+  $instance = "<?=\$instance?>" ;
+}
+
+header("Content-Type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/terms/>
+
+DESCRIBE <?=$instance?> ?author ?role ?org ?date ?project ?logo ?pirole ?pi ?copirole ?copi ?concept ?sponsor ?creator WHERE {
+  <?=$instance?> tw:hasAgentWithRole ?role .
+  { ?role a tw:Author . } UNION { ?role a tw:PointOfContact . }
+  ?author a foaf:Person .
+  ?author tw:hasRole ?role .
+  OPTIONAL {
+    <?=$instance?> dc:creator ?creator .
+  }
+  OPTIONAL {
+    ?role tw:withAffiliation ?org
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasDate ?date .
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasProjectReference ?project .
+    OPTIONAL {
+      ?project foaf:logo ?logo .
+      ?project tw:hasAgentWithRole ?pirole .
+      ?pirole a tw:PrincipalInvestigator .
+      ?pi tw:hasRole ?pirole .
+    }
+    OPTIONAL {
+      ?project tw:hasAgentWithRole ?copirole .
+      ?copirole a tw:CoInvestigator .
+      ?copi tw:hasRole ?copirole .
+    }
+    OPTIONAL {
+      ?project tw:hasSponsor ?sponsor .
+    }
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasTopic ?concept .
+  }
+}

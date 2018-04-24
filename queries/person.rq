@@ -1,0 +1,111 @@
+<?php
+
+include_once("common.php");
+
+if(isset($_GET["uri"])) {
+  $instance = "<" . sanitize($_GET["uri"],false) . ">";
+}
+else if(isset($_GET["i"])) {
+  $instance = "twi:" . sanitize($_GET["i"]);
+}
+else if(isset($_GET["s"])) {
+  $instance = "tw:" . sanitize($_GET["s"]);
+}
+else {
+  twerror();
+  $instance = "<?=\$instance?>" ;
+}
+
+header("Content-type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE <?=$instance?> ?pub ?coauthor ?affiliate ?event ?super ?project ?theme ?lead ?sponsor ?concept ?role ?role2 ?pic ?logo ?org ?parent ?logo2 ?contact ?projlogo ?interest ?location ?journal ?editor ?publisher
+WHERE {
+  OPTIONAL {
+    <?=$instance?> tw:hasAffiliation ?org .
+    ?org foaf:logo ?logo .
+    OPTIONAL {
+      ?org tw:hasParentOrganization ?parent .
+      ?parent foaf:logo ?logo2 .
+    }
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasRole ?role .
+    ?project tw:hasAgentWithRole ?role .
+    OPTIONAL {
+      ?pi rdf:type tw:PrincipalInvestigator .
+      ?project tw:hasAgentWithRole ?pi .
+      ?lead tw:hasRole ?pi .
+      ?lead rdf:type foaf:Person .
+    }
+    OPTIONAL {
+      ?project tw:hasSponsor ?sponsor .
+    }
+    OPTIONAL {
+      ?project tw:hasThemeReference ?theme .
+    }
+    OPTIONAL {
+      ?project tw:hasTopic ?concept .
+    }
+    OPTIONAL {
+      ?project foaf:logo ?projlogo .
+    }
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasRole ?role .
+    {
+      ?role rdf:type tw:Author .
+    } UNION {
+      ?role rdf:type tw:Presenter .
+    }
+    OPTIONAL {
+      ?role tw:withAffiliation ?affiliate .
+      OPTIONAL {
+	?affiliate foaf:logo ?logo
+      }
+    }
+    {
+      ?pub tw:hasAgentWithRole ?role .
+    } UNION {
+      ?role tw:ofDocument ?pub .
+    }
+    OPTIONAL {
+      {
+	?role2 tw:ofDocument ?pub .
+      } UNION {
+	?pub tw:hasAgentWithRole ?role2 .
+      }
+      ?coauthor tw:hasRole ?role2 .
+      ?coauthor rdf:type foaf:Person .
+    }
+    OPTIONAL {
+    ?pub tw:inEvent ?event .
+    OPTIONAL { ?event tw:hasLocation ?location }
+    OPTIONAL {
+      ?event tw:inEvent ?super .
+    }
+    }
+    OPTIONAL {
+      ?pub tw:inPublication ?journal .
+      OPTIONAL {
+        ?journal tw:hasAgentWithRole ?erole .
+        ?journal tw:publishedBy ?publisher .
+        ?erole a tw:Editor .
+        ?editor tw:hasRole ?erole .
+      }
+    }
+  }
+  OPTIONAL {
+    <?=$instance?> foaf:depiction ?pic .
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasInterest ?interest .
+  }
+}

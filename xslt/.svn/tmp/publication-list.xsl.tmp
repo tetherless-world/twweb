@@ -1,0 +1,141 @@
+<<<<<<< .mine
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+]>
+<xsl:stylesheet
+   version="1.0"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:tw="&tw;"
+   xmlns:time="http://www.w3.org/2006/time#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:exsl="http://exslt.org/common"
+   xmlns="http://www.w3.org/1999/xhtml">
+
+  <xsl:import href="/xslt/publication-list-item.xsl"/>
+
+  <xsl:template name="place-publication-list">
+    <xsl:param name="publications"/>
+    <xsl:param name="admin" select="false()"/>
+    <xsl:param name="embed" select="false()"/>
+    <xsl:param name="root" select="/"/>
+    <xsl:param name="class">publication-list</xsl:param>
+    <xsl:param name="sort" select="false()"/>
+    <table class="{$class}">
+      <xsl:for-each select="$publications/*">
+	<xsl:sort select="tw:hasPublicationDate/*/time:inXSDDateTime" order="descending"/>
+	<xsl:call-template name="publication-list-item">
+	  <xsl:with-param name="node" select="current()"/>
+	  <xsl:with-param name="admin" select="$admin"/>
+	  <xsl:with-param name="embed" select="$embed"/>
+	  <xsl:with-param name="root" select="$root"/>
+	</xsl:call-template>
+      </xsl:for-each>
+    </table>
+  </xsl:template>
+  
+  <xsl:template name="place-publication-list-stylesheet">
+    <link href="/css/publication-list.css" type="text/css" rel="stylesheet"/>
+  </xsl:template>
+
+  <xsl:template name="publication-list">
+    <xsl:param name="admin" select="false()"/>
+    <xsl:param name="embed" select="true()"/>
+    <xsl:param name="root" select="/"/>
+    <xsl:param name="uri"/>
+    <xsl:variable name="pubs">
+      <xsl:for-each select="$root//*[rdf:type/@rdf:resource='&tw;Publication']|$root//tw:Publication">
+	<xsl:copy-of select="current()"/>
+      </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="pubs2" select="exsl:node-set($pubs)"/>
+    <div class="publication-list">
+      <xsl:call-template name="place-publication-list-stylesheet"/>
+      <p>Total publications: <xsl:value-of select="count($pubs2/*)"/></p>
+      <xsl:call-template name="place-publication-list">
+	<xsl:with-param name="publications" select="$pubs2"/>
+	<xsl:with-param name="sort" select="true()"/>
+	<xsl:with-param name="admin" select="$admin"/>
+	<xsl:with-param name="embed" select="$embed"/>
+	<xsl:with-param name="root" select="$root"/>
+      </xsl:call-template>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="/">
+    <xsl:call-template name="publication-list">
+      <xsl:with-param name="root" select="current()"/>
+    </xsl:call-template>
+  </xsl:template>
+</xsl:stylesheet>
+=======
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+]>
+<xsl:stylesheet
+   version="1.0"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:tw="&tw;"
+   xmlns:time="http://www.w3.org/2006/time#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:exsl="http://exslt.org/common"
+   xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:import href="/tw.rpi.edu/styles/publication-list-item.xsl"/>
+  <xsl:template name="place-publication-list">
+    <xsl:param name="publications"/>
+    <xsl:param name="admin" select="false()"/>
+    <xsl:param name="embed" select="false()"/>
+    <xsl:param name="root" select="/"/>
+    <xsl:param name="class">publication-list</xsl:param>
+    <xsl:param name="sort" select="false()"/>
+    <table class="{$class}">
+      <xsl:for-each select="$publications/*">
+	<xsl:sort select="tw:hasPublicationDate/*/time:inXSDDateTime" order="descending"/>
+	<xsl:call-template name="publication-list-item">
+	  <xsl:with-param name="node" select="current()"/>
+	  <xsl:with-param name="admin" select="$admin"/>
+	  <xsl:with-param name="embed" select="$embed"/>
+	  <xsl:with-param name="root" select="$root"/>
+	</xsl:call-template>
+      </xsl:for-each>
+    </table>
+  </xsl:template>
+  
+  <xsl:template name="place-publication-list-stylesheet">
+    <link href="/css/publication-list.css" type="text/css" rel="stylesheet"/>
+  </xsl:template>
+
+  <xsl:template name="publication-list">
+    <xsl:param name="admin" select="false()"/>
+    <xsl:param name="embed" select="true()"/>
+    <xsl:param name="root" select="/"/>
+    <xsl:param name="uri"/>
+    <xsl:variable name="pubs">
+      <xsl:for-each select="$root//*[rdf:type/@rdf:resource='&tw;Publication']|$root//tw:Publication">
+	<xsl:copy-of select="current()"/>
+      </xsl:for-each>
+    </xsl:variable>
+    <div class="publication-list">
+      <xsl:call-template name="place-publication-list-stylesheet"/>
+      <xsl:call-template name="place-publication-list">
+	<xsl:with-param name="publications" select="exsl:node-set($pubs)"/>
+	<xsl:with-param name="sort" select="true()"/>
+	<xsl:with-param name="admin" select="$admin"/>
+	<xsl:with-param name="embed" select="$embed"/>
+	<xsl:with-param name="root" select="$root"/>
+      </xsl:call-template>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="/">
+    <xsl:call-template name="publication-list"/>
+  </xsl:template>
+</xsl:stylesheet>
+>>>>>>> .r602

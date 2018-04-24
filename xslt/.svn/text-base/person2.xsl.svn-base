@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+  <xsl:include href="/xslt/section-general.xsl"/>
+  <xsl:include href="/xslt/person-common.xsl"/>
+  <xsl:include href="/xslt/person-header.xsl"/>
+  <xsl:include href="/xslt/person-bio.xsl"/>
+  <xsl:include href="/xslt/person-affiliates.xsl"/>
+  <xsl:include href="/xslt/person-projects.xsl"/>
+  <xsl:include href="/xslt/author-publications.xsl"/>
+  <xsl:include href="/xslt/author-presentations.xsl"/>
+  <xsl:template match="*[@rdf:about='http://www.evanpatton.com/evan.rdf#me']">
+    <xsl:param name="admin"/>
+    <xsl:param name="embed"/>
+    <xsl:param name="uri"/>
+    <div class="person" about="{$uri}">
+      <link href="/css/objects.css" rel="stylesheet" type="text/css"/>
+      <link href="/css/person.css" rel="stylesheet" type="text/css"/>
+    <xsl:call-template name="person-header">
+      <xsl:with-param name="admin" select="$admin"/>
+      <xsl:with-param name="node" select="current()"/>
+      <xsl:with-param name="embed" select="$embed"/>
+    </xsl:call-template>
+    <xsl:call-template name="person-bio">
+      <xsl:with-param name="admin" select="$admin"/>
+      <xsl:with-param name="node" select="current()"/>
+      <xsl:with-param name="embed" select="$embed"/>
+    </xsl:call-template>
+    <xsl:call-template name="person-affiliates">
+      <xsl:with-param name="admin" select="$admin"/>
+      <xsl:with-param name="node" select="current()"/>
+      <xsl:with-param name="embed" select="$embed"/>
+    </xsl:call-template>
+    <xsl:call-template name="author-publications">
+      <xsl:with-param name="admin" select="$admin"/>
+      <xsl:with-param name="node" select="current()"/>
+      <xsl:with-param name="embed" select="$embed"/>
+    </xsl:call-template>
+    <xsl:call-template name="author-presentations">
+      <xsl:with-param name="admin" select="$admin"/>
+      <xsl:with-param name="node" select="current()"/>
+      <xsl:with-param name="embed" select="$embed"/>
+    </xsl:call-template>
+    <xsl:call-template name="person-projects">
+      <xsl:with-param name="admin" select="$admin"/>
+      <xsl:with-param name="node" select="current()"/>
+      <xsl:with-param name="embed" select="$embed"/>
+    </xsl:call-template>
+    </div>
+  </xsl:template>
+  <xsl:template match="/">
+    <xsl:variable name="admin" select="false()"/>
+    <div class="twqueryresult person">
+      <link rel="stylesheet" type="text/css" href="/css/objects.css"/>
+      <script type="text/javascript" src="/tw.rpi.edu/js/layout.js"></script>
+      <xsl:apply-templates>
+	<xsl:with-param name="admin" select="$admin"/>
+	<xsl:with-param name="uri">http://www.evanpatton.com/evan.rdf#me</xsl:with-param>
+	<xsl:with-param name="embed" select="true()"/>
+      </xsl:apply-templates>
+    </div>
+  </xsl:template>
+  <xsl:template match="rdf:RDF">
+    <xsl:param name="admin"/>
+    <xsl:param name="uri"/>
+    <xsl:param name="embed"/>
+    <xsl:apply-templates select="//*[@rdf:about=$uri]">
+      <xsl:with-param name="admin" select="$admin"/>
+      <xsl:with-param name="embed" select="$embed"/>
+      <xsl:with-param name="uri" select="$uri"/>
+    </xsl:apply-templates>
+  </xsl:template>
+</xsl:stylesheet>

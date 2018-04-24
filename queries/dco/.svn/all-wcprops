@@ -1,0 +1,491 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/10617/public/dco/trunk/queries
+END
+dco_field_study_title.rq
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_field_study_title.rq
+END
+dco_field_study_thumbnail.rq
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_field_study_thumbnail.rq
+END
+dco_field_study_community.rq
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_field_study_community.rq
+END
+dco_dataset_subjectareas.rq
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_subjectareas.rq
+END
+test_proj_title.rq
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/10609/public/dco/trunk/queries/test_proj_title.rq
+END
+dco_proj_projectUpdates.rq
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_projectUpdates.rq
+END
+dco_proj_relatedPublications.rq
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_relatedPublications.rq
+END
+dco_dataset_dcoid.rq
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_dcoid.rq
+END
+dco_grant_summary.rq
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grant_summary.rq
+END
+dco_dataset_description.rq
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_description.rq
+END
+dco_proj_participants.rq
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_participants.rq
+END
+awards.rq
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/10609/public/dco/trunk/queries/awards.rq
+END
+dco_grant_projects_full_x.rq
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grant_projects_full_x.rq
+END
+dco_common.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_common.php
+END
+dco_grant_field_studies_full.rq
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grant_field_studies_full.rq
+END
+test_proj_projectUpdates.rq
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/10609/public/dco/trunk/queries/test_proj_projectUpdates.rq
+END
+dco_grant_accordion_style.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/10916/public/dco/trunk/queries/dco_grant_accordion_style.xsl
+END
+dco_grants_style.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/10916/public/dco/trunk/queries/dco_grants_style.xsl
+END
+dco_dataset_dcocontributor.rq
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_dcocontributor.rq
+END
+dco_field_study_siblings.rq
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_field_study_siblings.rq
+END
+test_proj_participants.rq
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/10609/public/dco/trunk/queries/test_proj_participants.rq
+END
+dco_dataset_files.rq
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_files.rq
+END
+dco_grant_instruments_full.rq
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grant_instruments_full.rq
+END
+common.php
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/10609/public/dco/trunk/queries/common.php
+END
+dco_proj_dcoid.rq
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_dcoid.rq
+END
+dco_grant_dcoid.rq
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grant_dcoid.rq
+END
+dco_grant_description.rq
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grant_description.rq
+END
+dco_dataset_citation.rq
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_citation.rq
+END
+dco_proj_participants_location.rq
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_participants_location.rq
+END
+dco_proj_relatedProjects.rq
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_relatedProjects.rq
+END
+dco_grant_projects.rq
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grant_projects.rq
+END
+outreach.rq
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/10609/public/dco/trunk/queries/outreach.rq
+END
+dco_dataset_title.rq
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_title.rq
+END
+test_proj_description.rq
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/10609/public/dco/trunk/queries/test_proj_description.rq
+END
+test_proj_titledates_2.rq
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/10609/public/dco/trunk/queries/test_proj_titledates_2.rq
+END
+dco_dataset_community.rq
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_community.rq
+END
+dco_comm_publications_nolimit_nov2014.rq
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/10916/public/dco/trunk/queries/dco_comm_publications_nolimit_nov2014.rq
+END
+dco_proj_accordion_style.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/10916/public/dco/trunk/queries/dco_proj_accordion_style.xsl
+END
+dco_field_study_location.rq
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_field_study_location.rq
+END
+test_proj_dates.rq
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/10609/public/dco/trunk/queries/test_proj_dates.rq
+END
+dco_proj_participants_udco.rq
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_participants_udco.rq
+END
+dco_grant_projects_full.rq
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grant_projects_full.rq
+END
+dco_grants_projects.rq
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grants_projects.rq
+END
+dco_comm_publications.rq
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_comm_publications.rq
+END
+dco_datasets.rq
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_datasets.rq
+END
+grants.rq
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/10609/public/dco/trunk/queries/grants.rq
+END
+cisco_test.rq
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/10607/public/dco/trunk/queries/cisco_test.rq
+END
+dco_proj_title.rq
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_title.rq
+END
+dco_proj_all_projects.rq
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_all_projects.rq
+END
+dco_proj_accordian.rq
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_accordian.rq
+END
+dco_grant_field_studies.rq
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grant_field_studies.rq
+END
+dco_dataset_contributor.rq
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_contributor.rq
+END
+dco_dataset_dcocontributor_id.rq
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_dcocontributor_id.rq
+END
+dco_dataset_distribution.rq
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_distribution.rq
+END
+dco_proj_grants.rq
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_grants.rq
+END
+dco_dataset_citedby.rq
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_citedby.rq
+END
+dco_comm_publications_limit_feb2015.rq
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/10916/public/dco/trunk/queries/dco_comm_publications_limit_feb2015.rq
+END
+dco_field_study_vessel.rq
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_field_study_vessel.rq
+END
+dco_dataset_restrictions.rq
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_restrictions.rq
+END
+dco_proj_accordian_2.rq
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_accordian_2.rq
+END
+dco_comm_publications_x.rq
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_comm_publications_x.rq
+END
+people.rq
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/10609/public/dco/trunk/queries/people.rq
+END
+dataset.rq
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/10609/public/dco/trunk/queries/dataset.rq
+END
+dco_proj_investigator_emails.rq
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_investigator_emails.rq
+END
+test_projects.rq
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/10609/public/dco/trunk/queries/test_projects.rq
+END
+dco_proj_relatedDatasets.rq
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_relatedDatasets.rq
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/10617/public/dco/trunk/queries/.htaccess
+END
+test_proj_titledates.rq
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/10609/public/dco/trunk/queries/test_proj_titledates.rq
+END
+dco_proj_projectUpdates_2.rq
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_projectUpdates_2.rq
+END
+publications.rq
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/10609/public/dco/trunk/queries/publications.rq
+END
+dco_dataset_citedby_full.rq
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_citedby_full.rq
+END
+dco_proj_description.rq
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_description.rq
+END
+dco_dataset_geofocus.rq
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_dataset_geofocus.rq
+END
+test_proj_projectUpdates_2.rq
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/10609/public/dco/trunk/queries/test_proj_projectUpdates_2.rq
+END
+dco_grant_accordion_style_full.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/10916/public/dco/trunk/queries/dco_grant_accordion_style_full.xsl
+END
+dco_comm_publications_nolimit_feb2015.rq
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/10916/public/dco/trunk/queries/dco_comm_publications_nolimit_feb2015.rq
+END
+dco_proj_dates.rq
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_dates.rq
+END
+fieldwork.rq
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/10609/public/dco/trunk/queries/fieldwork.rq
+END
+dco_grants_demo.rq
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_grants_demo.rq
+END
+dco_comm_publications_nolimit.rq
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_comm_publications_nolimit.rq
+END
+dco_proj_siblings.rq
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/10607/public/dco/trunk/queries/dco_proj_siblings.rq
+END

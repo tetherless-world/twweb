@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+]>
+<xsl:stylesheet
+   version="2.0"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:tw="&tw;"
+   xmlns:time="http://www.w3.org/2006/time#"
+   xmlns:fn="http://www.w3.org/2005/xpath-functions"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:template name="long-month">
+    <xsl:param name="month"/>
+    <xsl:choose>
+      <xsl:when test="$month='01'"><xsl:text>January</xsl:text></xsl:when>
+      <xsl:when test="$month='02'"><xsl:text>February</xsl:text></xsl:when>
+      <xsl:when test="$month='03'"><xsl:text>March</xsl:text></xsl:when>
+      <xsl:when test="$month='04'"><xsl:text>April</xsl:text></xsl:when>
+      <xsl:when test="$month='05'"><xsl:text>May</xsl:text></xsl:when>
+      <xsl:when test="$month='06'"><xsl:text>June</xsl:text></xsl:when>
+      <xsl:when test="$month='07'"><xsl:text>July</xsl:text></xsl:when>
+      <xsl:when test="$month='08'"><xsl:text>August</xsl:text></xsl:when>
+      <xsl:when test="$month='09'"><xsl:text>September</xsl:text></xsl:when>
+      <xsl:when test="$month='10'"><xsl:text>October</xsl:text></xsl:when>
+      <xsl:when test="$month='11'"><xsl:text>November</xsl:text></xsl:when>
+      <xsl:when test="$month='12'"><xsl:text>December</xsl:text></xsl:when>
+      <xsl:otherwise><xsl:text>???</xsl:text></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template name="dateTime-to-text">
+    <xsl:param name="date"/>
+    <xsl:value-of select="substring($date,9,2)"/>
+    <xsl:text> </xsl:text>
+    <xsl:call-template name="long-month">
+      <xsl:with-param name="month" select="substring($date,6,2)"/>
+    </xsl:call-template>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="substring($date,1,4)"/>
+  </xsl:template>
+  <xsl:template name="announcement-list-item">
+    <xsl:param name="node"/>
+    <li class="announcement-list-item">
+      <span><xsl:call-template name="dateTime-to-text"><xsl:with-param name="date" select="$node/tw:hasAnnouncementDate/time:Instant/time:inXSDDateTime"/></xsl:call-template></span><xsl:text>: </xsl:text><xsl:value-of select="$node/tw:hasTitle"/>
+      <xsl:if test="$node/tw:hasURL">
+	<a href="{$node/tw:hasURL}">Read more...</a>
+      </xsl:if>
+      <xsl:if test="$node/tw:hasPersonReference|$node/tw:hasProjectReference">
+	<xsl:text>References: </xsl:text>
+	<xsl:for-each select="$node/tw:hasPersonReference|$node/tw:hasProjectReference">
+	  <xsl:variable name="url" select="current()/*/@rdf:about|current()/@rdf:resource"/>
+	  <xsl:variable name="ref" select="//*[@rdf:about=$url]"/>
+	  <a href="url">
+	    <xsl:choose>
+	      <xsl:when test="$ref/tw:hasName">
+		<xsl:value-of select="$ref/tw:hasName"/>
+	      </xsl:when>
+	      <xsl:when test="$ref/tw:hasFirstName">
+		<xsl:value-of select="$ref/tw:hasFirstName"/>
+		<xsl:text> </xsl:text>
+		<xsl:value-of select="$ref/tw:hasLastName"/>
+	      </xsl:when>
+	    </xsl:choose>
+	  </a>
+	  <xsl:if test="not(position()=last())"><xsl:text>, </xsl:text></xsl:if>
+	</xsl:for-each>
+      </xsl:if>
+    </li>
+  </xsl:template>
+</xsl:stylesheet>

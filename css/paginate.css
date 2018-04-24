@@ -1,0 +1,138 @@
+.person-publications-paginate-header {
+  width: 90%;
+  word-wrap: break-word;
+  padding-top: 12pt;
+  padding-bottom: 12pt;
+}
+
+.person-publications-paginate-header :first-child {
+  border-left: 1pt solid lightgrey;
+}
+
+.person-publications-paginate-header span {
+  display: inline-block;
+  width: 48pt;
+  text-align: center;
+  color: #ccc;
+}
+
+.person-publications-paginate-header span + span {
+  border-left: 1pt solid lightgrey;
+}
+
+.person-publications-paginate-header span.yearOption {
+  text-decoration: underline;
+  color: #0000FF;
+  cursor: pointer;
+}
+
+.person-publications-paginate-header span.yearOption:hover {
+    background-color: #ffddff;
+}
+
+.person-publications-paginate-header span.selected {
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  cursor: auto;
+}
+
+.person-publications-paginate-footer {
+    width: 90%;
+    word-wrap: break-word;
+    padding-bottom: 12pt;
+    padding-top: 12pt;
+}
+
+.person-publications-paginate-footer span {
+    display: inline-block;
+    width: 2em;
+    text-align: center;
+}
+
+.person-publications-paginate-footer span.page {
+    text-decoration: underline;
+    color: #0000FF;
+    cursor: pointer;
+}
+
+.person-publications-paginate-footer span.page:hover {
+    background-color: #ffddff;
+}
+
+.person-publications-paginate-footer span.selected {
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    cursor: auto;
+}
+
+.person-presentations-paginate-header {
+  width: 90%;
+  word-wrap: break-word;
+  padding-top: 12pt;
+  padding-bottom: 12pt;
+}
+
+.person-presentations-paginate-header :first-child {
+  border-left: 1pt solid lightgrey;
+}
+
+.person-presentations-paginate-header span {
+  display: inline-block;
+  width: 48pt;
+  text-align: center;
+  color: #ccc;
+}
+
+.person-presentations-paginate-header span + span {
+  border-left: 1pt solid lightgrey;
+}
+
+.person-presentations-paginate-header span.yearOption {
+  text-decoration: underline;
+  color: #0000FF;
+  cursor: pointer;
+}
+
+.person-presentations-paginate-header span.yearOption:hover {
+    background-color: #ffddff;
+}
+
+.person-presentations-paginate-header span.selected {
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  cursor: auto;
+}
+
+.person-presentations-paginate-footer {
+    width: 90%;
+    word-wrap: break-word;
+    padding-bottom: 12pt;
+    padding-top: 12pt;
+}
+
+.person-presentations-paginate-footer span {
+    display: inline-block;
+    width: 2em;
+    text-align: center;
+}
+
+.person-presentations-paginate-footer span.page {
+    text-decoration: underline;
+    color: #0000FF;
+    cursor: pointer;
+}
+
+.person-presentations-paginate-footer span.page:hover {
+    background-color: #ffddff;
+}
+
+.person-presentations-paginate-footer span.selected {
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    cursor: auto;
+}
+

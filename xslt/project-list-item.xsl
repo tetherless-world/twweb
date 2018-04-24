@@ -1,0 +1,280 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://leo.tw.rpi.edu/projects/webdeb/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+  <!ENTITY foaf "http://xmlns.com/foaf/0.1/">
+]>
+<xsl:stylesheet
+   version="1.0"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:tw="&tw;"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:exsl="http://exslt.org/common"
+   xmlns:foaf="http://xmlns.com/foaf/0.1/"
+   xmlns:dc="http://purl.org/dc/terms/"
+   xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:import href="/xslt/project-common.xsl"/>
+  <xsl:import href="/xslt/image-common.xsl"/>
+  <xsl:import href="/xslt/theme-common.xsl"/>
+  <xsl:import href="/xslt/concept-common.xsl"/>
+  <xsl:import href="/xslt/organization-common.xsl"/>
+  <xsl:import href="/xslt/person-common.xsl"/>
+
+  <xsl:template name="project-list-item">
+    <xsl:param name="admin"/>
+    <xsl:param name="embed"/>
+    <xsl:param name="node"/>
+    <xsl:param name="root" select="/"/>
+    <xsl:param name="tr-typeof"/>
+    <xsl:param name="tr-rel"/>
+    <xsl:param name="tr-rev"/>
+    <xsl:param name="td-rev"/>
+    <xsl:variable name="uri">
+      <xsl:call-template name="get-project-page">
+	<xsl:with-param name="project" select="$node"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="acronym">
+      <xsl:call-template name="get-project-acronym">
+        <xsl:with-param name="project" select="$node"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <tr class="project-list-item">
+      <xsl:if test="$tr-typeof!=''">
+	<xsl:attribute name="typeof">
+	  <xsl:value-of select="$tr-typeof"/>
+	</xsl:attribute>
+      </xsl:if>
+      <xsl:if test="$tr-rel">
+	<xsl:attribute name="rel">
+	  <xsl:value-of select="$tr-rel"/>
+	</xsl:attribute>
+      </xsl:if>
+      <xsl:if test="$tr-rev">
+	<xsl:attribute name="rev">
+	  <xsl:value-of select="$tr-rev"/>
+	</xsl:attribute>
+      </xsl:if>
+      <td about="{$node/@rdf:about}">
+	<xsl:if test="$td-rev!=''">
+	  <xsl:attribute name="rev">
+	    <xsl:value-of select="$td-rev"/>
+	  </xsl:attribute>
+	</xsl:if>
+	<a href="{$uri}" rel="tw:page">
+	  <xsl:variable name="logo-raw">
+	    <xsl:call-template name="get-project-logo">
+	      <xsl:with-param name="project" select="$node"/>
+	      <xsl:with-param name="root" select="$root"/>
+	    </xsl:call-template>
+	  </xsl:variable>
+	  <xsl:choose>
+	    <xsl:when test="$logo-raw!=''">
+	      <xsl:variable name="logo" select="exsl:node-set($logo-raw)/*"/>
+	      <span about="{$node/@rdf:about}" rel="foaf:logo">
+	      <xsl:call-template name="place-image">
+		<xsl:with-param name="image" select="$logo"/>
+		<xsl:with-param name="class">thumb</xsl:with-param>
+		<xsl:with-param name="rel">foaf:logo</xsl:with-param>
+	      </xsl:call-template>
+	      </span>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <img class="thumb" src="https://tw.rpi.edu/images/tw-logo-v2.png" alt="TW Logo"/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</a>
+      </td>
+      <td about="{$node/@rdf:about}" typeof="foaf:Project">
+	<xsl:if test="$td-rev!=''">
+	  <xsl:attribute name="rev">
+	    <xsl:value-of select="$td-rev"/>
+	  </xsl:attribute>
+	</xsl:if>
+	<span class="title" property="foaf:name" content="{$node/foaf:name}">
+	  <a href="{$uri}" rel="tw:page">
+            <span about="{$node/@rdf:about}">
+            <span property="foaf:name">
+	    <xsl:value-of select="$node/foaf:name"/>
+            </span>
+            <xsl:if test="$acronym!=''">
+              <xsl:text> (</xsl:text>
+              <span property="tw:hasAcronym">
+                <xsl:value-of select="$acronym"/>
+              </span>
+              <xsl:text>)</xsl:text>
+            </xsl:if>
+            </span>
+	  </a>
+	  <br/>
+	</span>
+	<xsl:if test="$node/tw:hasThemeReference">
+	  <span class="prop">
+	    Research Areas:
+	  </span>
+	  <xsl:for-each select="$node/tw:hasThemeReference">
+	    <xsl:choose>
+	      <xsl:when test="@rdf:resource">
+		<xsl:variable name="theme"
+                     select="$root//*[@rdf:about=current()/@rdf:resource]"/>
+		<xsl:call-template name="place-theme-link">
+		  <xsl:with-param name="theme" select="$theme"/>
+		  <xsl:with-param name="rel">tw:hasThemeReference</xsl:with-param>
+		</xsl:call-template>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<xsl:variable name="theme" select="./*"/>
+		<xsl:call-template name="place-theme-link">
+		  <xsl:with-param name="theme" select="$theme"/>
+		  <xsl:with-param name="rel">tw:hasThemeReference</xsl:with-param>
+		</xsl:call-template>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	    <xsl:if test="not(position()=last())">
+	      <xsl:text>, </xsl:text>
+	    </xsl:if>
+	  </xsl:for-each>
+	  <br/>
+	</xsl:if>
+        <xsl:variable name="investigators">
+          <xsl:call-template name="get-project-principal">
+            <xsl:with-param name="project" select="$node"/>
+            <xsl:with-param name="root" select="$root"/>
+          </xsl:call-template>
+        </xsl:variable>
+	<xsl:if test="$investigators!=''">
+	  <span class="prop">
+	    Principal Investigator:
+	  </span>
+	  <span rel="tw:hasAgentWithRole">
+            <xsl:for-each select="exsl:node-set($investigators)/*">
+              <xsl:sort select="tw:index" data-type="number" />
+              <span typeof="tw:PrincipalInvestigator" rev="tw:hasRole">
+		<xsl:call-template name="place-person-link">
+                  <xsl:with-param name="person" select="current()"/>
+                  <xsl:with-param name="style">full</xsl:with-param>
+                  <xsl:with-param name="rdfa" select="true()"/>
+		</xsl:call-template>
+              </span>
+	      <xsl:choose>
+		<xsl:when test="last()&gt;2 and position()&lt;last()-1">
+		  <xsl:text>, </xsl:text>
+		</xsl:when>
+		<xsl:when test="last()&gt;2 and position()=last()-1">
+                  <xsl:text>, and </xsl:text>
+		</xsl:when>
+		<xsl:when test="last()=2 and position()=1">
+                  <xsl:text> and </xsl:text>
+		</xsl:when>
+              </xsl:choose>
+            </xsl:for-each>
+	  </span>
+	  <br/>
+	</xsl:if>
+        <xsl:variable name="coinvestigators">
+          <xsl:call-template name="get-project-coinvestigator">
+            <xsl:with-param name="project" select="$node"/>
+            <xsl:with-param name="root" select="$root"/>
+          </xsl:call-template>
+        </xsl:variable>
+	<xsl:if test="$coinvestigators!=''">
+	  <span class="prop">
+	    Co Investigator:
+	  </span>
+	  <span rel="tw:hasAgentWithRole">
+            <xsl:for-each select="exsl:node-set($coinvestigators)/*">
+              <xsl:sort select="foaf:lastName|foaf:surname|foaf:familyName|foaf:family_name"/>
+              <span typeof="tw:CoInvestigator" rev="tw:hasRole">
+		<xsl:call-template name="place-person-link">
+                  <xsl:with-param name="person" select="current()"/>
+                  <xsl:with-param name="style">full</xsl:with-param>
+                  <xsl:with-param name="rdfa" select="true()"/>
+		</xsl:call-template>
+              </span>
+	      <xsl:choose>
+		<xsl:when test="last()&gt;2 and position()&lt;last()-1">
+		  <xsl:text>, </xsl:text>
+		</xsl:when>
+		<xsl:when test="last()&gt;2 and position()=last()-1">
+                  <xsl:text>, and </xsl:text>
+		</xsl:when>
+		<xsl:when test="last()=2 and position()=1">
+                  <xsl:text> and </xsl:text>
+		</xsl:when>
+            </xsl:choose>
+            </xsl:for-each>
+	  </span>
+	  <br/>
+	</xsl:if>
+	<xsl:if test="$node/tw:hasSponsor">
+	  <span class="prop">
+	    <xsl:choose>
+	      <xsl:when test="count($node/tw:hasSponsor)!=1">
+		Sponsors:
+	      </xsl:when>
+	      <xsl:otherwise>
+		Sponsor:
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </span>
+	  <xsl:variable name="sponsors-raw">
+	    <xsl:call-template name="get-project-sponsors">
+	      <xsl:with-param name="project" select="$node"/>
+	      <xsl:with-param name="root" select="$root"/>
+	    </xsl:call-template>
+	  </xsl:variable>
+	  <xsl:variable name="sponsors" select="exsl:node-set($sponsors-raw)"/>
+	  <span rel="tw:hasSponsor">
+	  <xsl:for-each select="$sponsors/*">
+	    <xsl:call-template name="place-organization-link">
+	      <xsl:with-param name="organization" select="current()"/>
+	    </xsl:call-template>
+	    <xsl:if test="position()!=last()">
+	      <xsl:text>, </xsl:text>
+	    </xsl:if>
+	  </xsl:for-each>
+	  </span>
+	  <br/>
+	</xsl:if>
+	<xsl:if test="$node/dc:description">
+	  <span class="prop">
+	    Description:
+	  </span>
+          <xsl:call-template name="get-project-short-description">
+            <xsl:with-param name="project" select="$node"/>
+            <xsl:with-param name="root" select="$root"/>
+          </xsl:call-template>
+	  <br/>
+	</xsl:if>
+	<xsl:if test="$node/tw:hasTopic">
+	  <span class="prop">
+	    Concepts:
+	  </span>
+	  <xsl:for-each select="$node/tw:hasTopic">
+	    <xsl:choose>
+	      <xsl:when test="@rdf:resource">
+		<xsl:variable name="concept" select="$root//*[@rdf:about=current()/@rdf:resource]"/>
+		<xsl:call-template name="place-concept-link">
+		  <xsl:with-param name="concept" select="$concept"/>
+		  <xsl:with-param name="rel">tw:hasTopic</xsl:with-param>
+		</xsl:call-template>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<xsl:variable name="concept" select="./*"/>
+		<xsl:call-template name="place-concept-link">
+		  <xsl:with-param name="concept" select="$concept"/>
+		  <xsl:with-param name="rel">tw:hasTopic</xsl:with-param>
+		</xsl:call-template>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	    <xsl:if test="not(position()=last())">
+	      <xsl:text>, </xsl:text>
+	    </xsl:if>
+	  </xsl:for-each>
+	</xsl:if>
+      </td>
+    </tr>
+  </xsl:template>
+</xsl:stylesheet>

@@ -1,0 +1,49 @@
+<?php
+
+# time is the current date/time. Determine any events that are currently
+# taking place
+$time = date("Y-m-d\TH:i:s");
+
+include_once("common.php");
+
+if(isset($_GET["uri"])) {
+  $instance = "<" . sanitize($_GET["uri"],false) . ">";
+}
+else if(isset($_GET["i"])) {
+  $instance = "twi:" . sanitize($_GET["i"]);
+}
+else if(isset($_GET["s"])) {
+  $instance = "tw:" . sanitize($_GET["s"]);
+}
+else $instance = "";
+
+if($instance !="" ) {
+  $forcourse="?class tw:forCourse $instance .\n";
+}
+else {
+  $forcourse="\n";
+}
+
+header("Content-Type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE ?class
+WHERE
+{
+  ?class rdf:type tw:CourseClass .
+  ?class tw:hasDateTimeCoverage ?dt .
+  <?=$forcourse?>
+  ?dt time:hasEnd ?ending .
+  ?ending time:inXSDDateTime ?edt .
+  FILTER(?edt < "<?=$time?>"^^xsd:dateTime).
+}
+

@@ -1,0 +1,68 @@
+.person
+ { 
+   width: 100%;
+ }
+
+.edit {
+  font-size: 9pt;
+}
+
+.edit a {
+  text-decoration: none;
+}
+
+.person .header .thumb 
+{ 
+  float: right;
+  max-width: 150px;
+  margin: 16px;
+  margin-top: 0px;
+ }
+
+/*
+.person .infobox {
+  float: right;
+  background-color: #dedede;
+  margin-left: 1.5em;
+}
+*/
+
+table.infobox {
+ float: right;
+  background-color: #dedede;
+  margin-left: 1.5 em;
+  padding: 3px;
+  width: 154px;
+}
+
+/*
+.person .infobox table {
+  margin: 3px;
+  background-color: #dedede;
+  width: 154px;
+}
+*/
+
+table.infobox img {
+  width: 150px;
+}
+
+table.infobox .img {
+    text-align: center;
+}
+
+table.infobox td {
+  padding: 3px;
+}
+
+table.infobox td.header {
+    background-color: #fed5ff;
+    text-align: center;
+    font-weight: bold;
+    padding: 2px;
+}
+
+table.infobox td.section {
+    background-color: #eee5ff;
+    text-align: center;
+}

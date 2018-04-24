@@ -1,0 +1,74 @@
+.organization-list
+{ 
+  border-collapse: collapse;
+  max-width: 100%;
+  width: auto;
+ }
+
+.organization-list tbody
+{ 
+  border: 0px solid #fff;
+ }
+
+.organization-list td
+{
+  padding: 8px;
+}
+
+.organization-list tr.organization-list-item:hover
+ { 
+   background-color: #ffddff;
+ }
+
+.organization-list .organization-list-item .thumb
+{ 
+  max-width: 64px;
+  max-height: 64px;
+  margin: 0;
+ }
+
+.organization .thumb {
+    float:right;
+}
+
+.organization .infobox {
+  float: right;
+/*  width: 160px;*/
+  background-color: #dedede;
+  margin-left: 1.5em;
+}
+
+.organization .infobox table {
+  margin: 3px;
+  background-color: #dedede;
+  width: 154px;
+}
+
+.organization .infobox table img {
+  width: 150px;
+}
+
+.organization .infobox table .img {
+    text-align: center;
+}
+
+.organization .infobox table td {
+  padding: 3px;
+}
+
+.organization .infobox table td.header {
+    background-color: #fed5ff;
+    text-align: center;
+    font-weight: bold;
+    padding: 2px;
+}
+
+.organization .infobox table td.section {
+    background-color: #eee5ff;
+    text-align: center;
+}
+
+.organization span.label {
+    font-weight: bold;
+}
+

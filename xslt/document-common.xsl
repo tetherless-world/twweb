@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+  <!ENTITY foaf "http://xmlns.com/foaf/0.1/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns:exsl="http://exslt.org/common"
+		xmlns:fn="http://www.w3.org/2005/xpath-functions"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	  	xmlns:foaf="&foaf;"
+		xmlns:dc="http://purl.org/dc/terms/"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+  <xsl:import href="/xslt/person-common.xsl"/>
+  <xsl:import href="/xslt/event-common.xsl"/>
+  <xsl:import href="/xslt/time-common.xsl"/>
+
+  <xsl:key name="tw:Author-nodes" match="tw:Author|*[rdf:type/@rdf:resource='&tw;Author']" use="@rdf:nodeID"/>
+  <xsl:key name="tw:Editor-nodes" match="tw:Editor|*[rdf:type/@rdf:resource='&tw;Editor']" use="@rdf:nodeID"/>
+  <xsl:key name="tw:hasRole-nodes" match="tw:hasRole" use="@rdf:nodeID|*/@rdf:nodeID"/>
+  <xsl:key name="foaf:Person-nodes" match="foaf:Person|*[rdf:type/@rdf:resource='&foaf;Person']" use="@rdf:about"/>
+  <xsl:key name="tw:Event-nodes" match="tw:Event|*[rdf:type/@rdf:resource='&tw;Event']" use="@rdf:about"/>
+  <xsl:key name="foaf:Document-nodes" match="foaf:Document|*[rdf:type/@rdf:resource='&foaf;Document']" use="@rdf:about"/>
+
+  <xsl:template match="tw:Author|*[rdf:type/@rdf:resource='&tw;Author']" mode="place-author-link">
+    <xsl:param name="document"/>
+    <span typeof="tw:Author">
+      <span rev="tw:hasRole">
+      <xsl:apply-templates select="key('tw:hasRole-nodes',@rdf:nodeID)/.." mode="place-link">
+	<xsl:with-param name="document" select="$document"/>
+	<xsl:with-param name="author" select="."/>
+      </xsl:apply-templates>
+      </span>
+      <span property="tw:index" content="{tw:index/text()}"></span>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="tw:Editor|*[rdf:type/@rdf:resource='&tw;Editor']" mode="place-editor-link">
+    <xsl:param name="document"/>
+    <span typeof="tw:Editor">
+      <span rev="tw:hasRole">
+      <xsl:apply-templates select="key('tw:hasRole-nodes',@rdf:nodeID)/.." mode="place-link">
+	<xsl:with-param name="document" select="$document"/>
+	<xsl:with-param name="author" select="."/>
+      </xsl:apply-templates>
+      </span>
+      <span property="tw:index" content="{tw:index/text()}"></span>
+    </span>
+  </xsl:template>
+
+  <xsl:template name="place-uri-link">
+    <xsl:param name="document"/>
+    <xsl:variable name="doc-uri-raw">
+      <xsl:choose>
+	<xsl:when test="@rdf:about">
+	  <uri><xsl:value-of select="@rdf:about"/></uri>
+	</xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+    <a>
+      <xsl:attribute name="href">
+        <xsl:copy-of select="$doc-uri-raw"/>
+      </xsl:attribute>
+      <xsl:call-template name="get-document-title">
+	<xsl:with-param name="document" select="$document"/>
+      </xsl:call-template>
+    </a>
+  </xsl:template>
+
+  <xsl:template name="place-creators-link">
+    <xsl:param name="document"/>
+    <xsl:param name="root"/>
+    <xsl:if test="$document/dc:creator">
+      <xsl:for-each select="$document/dc:creator">
+        <xsl:variable name="person-uri-raw">
+          <xsl:choose>
+	    <xsl:when test="@rdf:resource">
+	      <uri><xsl:value-of select="@rdf:resource"/></uri>
+	    </xsl:when>
+	    <xsl:when test="@rdf:nodeID">
+	      <nodeID><xsl:value-of select="@rdf:nodeID"/></nodeID>
+	    </xsl:when>
+	    <xsl:when test="*/@rdf:about">
+	      <uri><xsl:value-of select="*/@rdf:about"/></uri>
+	    </xsl:when>
+	    <xsl:when test="*/@rdf:nodeID">
+	      <nodeID><xsl:value-of select="*/@rdf:nodeID"/></nodeID>
+	    </xsl:when>
+          </xsl:choose>
+	</xsl:variable>
+        <xsl:call-template name="place-person-link">
+	  <xsl:with-param name="person" select="$root//*[@rdf:about=$person-uri-raw]"/>
+	  <xsl:with-param name="rel">dc:creator</xsl:with-param>
+        </xsl:call-template>
+      </xsl:for-each>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="foaf:Document|*[rdf:type/@rdf:resource='&foaf;Document']"
+		mode="link">
+    <span about="{@rdf:about}" typeof="foaf:Document">
+      <a href="{tw:page/@rdf:resource}" rel="tw:page">
+	<span about="{@rdf:about}">
+	  <span property="dc:title">
+	    <xsl:apply-templates select="." mode="title"/>
+	  </span>
+	</span>
+      </a>
+    </span>
+  </xsl:template>
+
+  <xsl:template name="get-document-title">
+    <xsl:param name="document"/>
+    <xsl:value-of select="$document/dc:title"/>
+  </xsl:template>
+
+  <xsl:template match="foaf:Document|*[rdf:type/@rdf:resource='&foaf;Document']"
+		mode="title">
+    <xsl:choose>
+      <xsl:when test="dc:title">
+	<xsl:value-of select="dc:title"/>
+      </xsl:when>
+      <xsl:when test="foaf:name">
+	<xsl:value-of select="foaf:name"/>
+      </xsl:when>
+      <xsl:when test="rdfs:label">
+	<xsl:value-of select="rdfs:label"/>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+
+<!--
+  <xsl:template name="get-document-authors">
+    <xsl:param name="document"/>
+    <xsl:param name="root" select="/"/>
+    <xsl:variable name="roles-raw">
+    <xsl:for-each select="$document/tw:hasAgentWithRole">
+      <xsl:choose>
+	<xsl:when test="current()/@rdf:nodeID">
+	  <xsl:copy-of select="$root//tw:Role[@rdf:nodeID=current()/@rdf:nodeID]|$root//*[@rdf:nodeID=current()/@rdf:nodeID and rdf:type/@rdf:resource='&tw;Role']"/>
+	</xsl:when>
+	<xsl:when test="current()/@rdf:resource">
+	  <xsl:variable name="uri" select="current()/@rdf:resource"/>
+	  <xsl:value-of select="$uri"/>
+	  <xsl:copy-of select="$root//*[@rdf:about=$uri]"/>
+	</xsl:when>
+	<xsl:when test="current()/*">
+	  <xsl:copy-of select="current()/*"/>
+	</xsl:when>
+      </xsl:choose>
+    </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="roles" select="exsl:node-set($roles-raw)"/>
+    <xsl:for-each select="$roles/*">
+      <xsl:sort select="tw:index"/>
+      <xsl:choose>
+	<xsl:when test="current()/@rdf:about">
+	  <xsl:copy-of select="$root//*[tw:hasRole/@rdf:resource=current()/@rdf:about]|$root//*[tw:hasRole/*/@rdf:about=current()/@rdf:about]"/>
+	</xsl:when>
+	<xsl:when test="current()/@rdf:nodeID">
+	  <xsl:copy-of select="$root//*[tw:hasRole/*/@rdf:nodeID=current()/@rdf:nodeID]|$root//*[tw:hasRole/@rdf:nodeID=current()/@rdf:nodeID]"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <tw:Person><tw:hasLastName>Unknown Author</tw:hasLastName></tw:Person>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:template>
+-->
+  <xsl:template name="get-document-authors">
+    <xsl:param name="document"/>
+    <xsl:param name="root" select="/"/>
+
+    <xsl:for-each select="$document/tw:hasAgentWithRole/*/@rdf:nodeID|$document/tw:hasAgentWithRole/@rdf:nodeID">
+      <nodeID><xsl:value-of select="."/></nodeID>
+    </xsl:for-each>
+<!--
+    <xsl:for-each select="key('tw:Author-nodes',$document/tw:hasAgentWithRole/*/@rdf:nodeID|$document/tw:hasAgentWithRole/@rdf:nodeID)">
+      <xsl:sort select="tw:index" order="ascending"/>
+      <xsl:variable name="person" select="key('tw:hasRole-nodes',@rdf:nodeID)/.."/>
+      <id><xsl:value-of select="$person/@rdf:about|$person/@rdf:nodeID"/></id>
+    </xsl:for-each>
+-->
+  </xsl:template>
+</xsl:stylesheet>

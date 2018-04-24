@@ -1,0 +1,20 @@
+<?php
+header("Content-Type: text/plain");
+?>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE ?pub ?author ?person ?event ?super
+WHERE {
+  ?pub rdf:type ?y .
+  ?y rdfs:subClassOf tw:Presentation .
+  ?pub tw:hasAgentWithRole ?author .
+  ?person tw:hasRole ?author .
+  OPTIONAL {
+    ?pub tw:inEvent ?event .
+  }
+}

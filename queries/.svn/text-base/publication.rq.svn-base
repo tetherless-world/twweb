@@ -1,0 +1,80 @@
+<?php
+
+include_once("common.php");
+
+if($_GET["uri"]) {
+  $instance = "<" . sanitize($_GET["uri"],false) . ">";
+}
+else if($_GET["i"]) {
+  $instance = "twi:" . sanitize($_GET["i"]);
+}
+else if($_GET["s"]) {
+  $instance = "tw:" . sanitize($_GET["s"]);
+}
+else {
+  twerror();
+  $instance = "<?=\$instance?>" ;
+}
+
+header("Content-type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE <?=$instance?> ?author ?role ?event ?super ?date ?theme ?project ?concept ?parent ?logo ?sponsor ?lead ?img ?pic ?pi ?topic ?sponsor
+WHERE {
+  {
+    ?author tw:hasRole ?role .
+    ?role tw:ofDocument <?=$instance?> .
+    OPTIONAL {
+      ?author foaf:depiction ?pic .
+    }
+  } UNION {
+    <?=$instance?> tw:hasAgentWithRole ?role .
+    ?author tw:hasRole ?role .
+    ?author rdf:type foaf:Person .
+    OPTIONAL {
+      ?author foaf:depiction ?pic .
+    }
+  }
+  <?=$instance?> tw:hasPublicationEvent ?event .
+  OPTIONAL {
+    ?event tw:inEvent ?super .
+  }
+  <?=$instance?> tw:hasPublicationDate ?date .
+  OPTIONAL {
+    <?=$instance?> tw:hasThemeReference ?theme .
+    OPTIONAL {
+      ?theme foaf:logo ?logo .
+    }
+    ?theme tw:hasLeadProfessor ?lead .
+    OPTIONAL {
+      ?lead foaf:depiction ?img .
+    }
+    ?theme tw:hasTopic ?topic .
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasProjectReference ?project .
+    ?project tw:hasAgentWithRole ?pi .
+    ?lead tw:hasRole ?pi .
+    ?lead rdf:type foaf:Person .
+    ?pi rdf:type tw:PrincipalInvestigator .
+    OPTIONAL {
+      ?project tw:hasTopic ?topic .
+    }
+    OPTIONAL {
+      ?project tw:hasSponsor ?sponsor .
+    }
+    OPTIONAL {
+      ?project tw:hasThemeReference ?theme .
+    }
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasTopic ?concept .
+  }
+}

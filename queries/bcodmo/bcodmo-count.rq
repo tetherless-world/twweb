@@ -1,0 +1,39 @@
+<?php
+
+include_once("../common.php");
+
+if(isset($_GET["uri"])) {
+  $instance = "<" . sanitize($_GET["uri"],false) . ">";
+}
+else if(isset($_GET["i"])) {
+  $instance = "twi:" . sanitize($_GET["i"]);
+}
+else if(isset($_GET["s"])) {
+  $instance = "bcodmo:" . sanitize($_GET["s"]);
+}
+else
+{
+  twerror();
+  $instance = "<?=\$instance?>" ;
+}
+
+header("Content-type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX bcodmo: <http://escience.rpi.edu/ontology/BCO-DMO/bcodmo/3/0/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT ?type_label (count(distinct ?s) as ?type_count)
+WHERE
+{
+ GRAPH <http://escience.rpi.edu/ontology/BCO-DMO/bcodmo/3/0/>
+ {
+    ?s rdf:type <?=$instance?> .
+    <?=$instance?> rdfs:label ?type_label .
+ }
+}
+

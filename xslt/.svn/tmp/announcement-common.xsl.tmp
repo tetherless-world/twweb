@@ -1,0 +1,123 @@
+<!-- made by David Molik using gedit -->
+<!-- note, announcement doesnt need a dynamic, no other objects xslt will be used by the announcement object --> 
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+]>
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:tw="&tw;"
+  xmlns:time="http://www.w3.org/2006/time#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:s="http://www.w3.org/2005/sparql-results#"
+  xmlns:exsl="http://exslt.org/common"
+  xmlns="http://www.w3.org/1999/xhtml"
+>
+
+<xsl:template name="get-announcement-title">
+  <xsl:param name="announcement"/>
+  <xsl:if test="$announcement/tw:hasTitle"> <!-- itc -->
+    <xsl:value-of select="$announcment/tw:hasTitle"/>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template name="get-announcement-author"> <!-- need to test weather or not author is or isn't there? -->
+  <xsl:param name="announcement"/>
+  <xsl:param name="root" select="/"/>
+  <xsl:for-each select="$theme/tw:hasAuthor">
+    <xsl:choose>
+    <xsl:when test="current()/@rdf:nodeID">
+      <xsl:copy-of select="$root//*[@rdf:nodeID=current()/@rdf:nodeID/*/..]"/>
+    </xsl:when>
+    <xsl:when test="current()/@rdf:resource">
+      <xsl:copy-of select="$root//*[@rdf:about=current()/@rdf:resource]"/>
+    </xsl:when>
+    <xsl:when test="current()/*">
+      <xsl:copy-of select="current()/*"/>
+    </xsl:when>
+    </xsl:choose>
+  </xsl:for-each>
+</xsl:template>
+
+<xsl:template name="get-announcement-URL">
+  <xsl:param name="announcement"/>
+  <xsl:if test="$announcement/tw:hasURL">
+    <xsl:value-of select="$announcement/tw:hasURL"/>
+  </xsl:if>
+</xsl:template>
+
+<!-- <xsl:template name="get-announcement-in-the-news"> 
+  <xsl:if test="">
+  
+  </xsl:if>
+</xsl:template>
+
+<xsl:template name="get-announcement-TWAnnouncement"> 
+  <xsl:if test="">
+  
+  </xsl:if>
+</xsl:template> -->
+
+<xsl:template name="get-announcement-themes"><!-- itc -->
+  <xsl:param name="announcement"/>
+  <xsl:param name="root" select="/"/>
+  <xsl:if test="$theme/tw:hasThemeReference">
+    <xsl:for-each select="$theme/tw:hasThemeReference">
+      <xsl:choose>
+        <xsl:when test="current()/@rdf:resource">
+          <xsl:copy-of select="$root//*[@rdf:about=current()/@rdf:resource]"/>
+        </xsl:when>
+        <xsl:when test="current()/@rdf:nodeID">
+          <xsl:copy-of select="$root//*[@rdf:nodeID=current()/@rdf:nodeID]/*/.."/>
+        </xsl:when>
+        <xsl:when test="current()/*">
+          <xsl:copy-of select="current()/*"/>
+       </xsl:when>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template name="get-announcement-projects"><!-- itc -->
+  <xsl:param name="announcement"/>
+  <xsl:param name="root" select="/"/>
+  <xsl:if test="$theme/tw:hasProjectReference">
+    <xsl:for-each select="$theme/tw:hasProjectReference">
+      <xsl:choose>
+        <xsl:when test="current()/@rdf:resource">
+          <xsl:copy-of select="$root//*[@rdf:about=current()/@rdf:resource]"/>
+        </xsl:when>
+        <xsl:when test="current()/@rdf:nodeID">
+          <xsl:copy-of select="$root//*[@rdf:nodeID=current()/@rdf:nodeID]/*/.."/>
+        </xsl:when>
+        <xsl:when test="current()/*">
+          <xsl:copy-of select="current()/*"/>
+       </xsl:when>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template name="get-announcment-topics"><!-- itc -->
+  <xsl:param name="announcement"/>
+  <xsl:param name="root" select="/"/>
+  <xsl:if test="$theme/tw:hasTopic">
+    <xsl:for-each select="$theme/tw:hasTopic">
+      <xsl:choose>
+        <xsl:when test="current()/@rdf:resource">
+          <xsl:copy-of select="$root//*[@rdf:about=current()/@rdf:resource]"/>
+        </xsl:when>
+        <xsl:when test="current()/@rdf:nodeID">
+          <xsl:copy-of select="$root//*[@rdf:nodeID=current()/@rdf:nodeID]/*/.."/>
+        </xsl:when>
+        <xsl:when test="current()/*">
+          <xsl:copy-of select="current()/*"/>
+       </xsl:when>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:if>
+</xsl:template>
+
+</xsl:stylesheet>

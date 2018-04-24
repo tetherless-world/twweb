@@ -1,0 +1,36 @@
+<?php
+
+header("Content-type: text/plain");
+
+include_once("common.php");
+
+$year = null;
+$offset = null;
+$limit = null;
+$uri = $_GET["uri"];
+
+$instance = sanitize($uri,false);
+
+if(isset($_GET["year"])) $year = $_GET["year"];
+if(isset($_GET["offset"])) $offset = $_GET["offset"];
+if(isset($_GET["limit"])) $limit = $_GET["limit"];
+
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX fn: <http://www.w3.org/2005/xpath-functions#>
+
+SELECT (count(?uri) as ?count) WHERE {
+  ?uri a tw:Presentation .
+  ?uri tw:hasAgentWithRole ?role .
+  <<?=$instance?>> tw:hasRole ?role .
+  ?uri tw:hasDate ?date .
+  ?date time:inXSDDateTime ?dateTime .
+<? if($year!=null) echo "  FILTER(fn:substring(str(?dateTime),1,4)=\"$year\")\r\n"; ?>
+}
+

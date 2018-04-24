@@ -1,0 +1,20 @@
+.publication
+ { 
+   width: 100%;
+ }
+
+.edit {
+  font-size: 9pt;
+}
+
+.edit a {
+  text-decoration: none;
+}
+
+.publication .header .thumb 
+{ 
+  float: right;
+  max-width: 150px;
+  margin: 16px;
+  margin-top: 0px;
+ }

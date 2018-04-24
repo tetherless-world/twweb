@@ -1,0 +1,4 @@
+AddType text/xsl .xsl
+
+Options -Multiviews +Indexes
+

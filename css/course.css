@@ -1,0 +1,16 @@
+*[typeof="tw:Course"] span.title {
+    font-weight: bold;
+}
+
+*[typeof="tw:Course"] {
+    margin-bottom: 12px;
+}
+
+*[typeof="tw:CourseClass"] span.title {
+    font-weight: bold;
+}
+
+*[typeof="tw:CourseClass"] {
+    margin-bottom: 12px;
+}
+

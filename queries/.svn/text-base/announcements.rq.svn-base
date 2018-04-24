@@ -1,0 +1,26 @@
+<?php
+header("Content-type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/terms/>
+
+DESCRIBE ?x ?img
+WHERE {
+  { ?x rdf:type tw:Announcement } UNION { ?x rdf:type tw:InTheNews }
+  OPTIONAL {
+    ?x ?test tw:Internal .
+  }
+  FILTER(!bound(?test)) .
+  ?x tw:hasAnnouncementDate ?instant .
+  ?instant time:inXSDDateTime ?time .
+  OPTIONAL {
+    ?x foaf:depiction ?img .
+  }
+}

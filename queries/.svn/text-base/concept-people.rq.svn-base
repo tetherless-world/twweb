@@ -1,0 +1,58 @@
+<?php
+
+include_once("common.php");
+
+if(isset($_GET["uri"])) {
+  $instance = "<" . sanitize($_GET["uri"],false) . ">";
+}
+else if(isset($_GET["i"])) {
+  $instance = "twi:" . sanitize($_GET["i"]);
+}
+else if(isset($_GET["s"])) {
+  $instance = "tw:" . sanitize($_GET["s"]);
+}
+else {
+  twerror();
+  $instance = "<?=\$instance?>" ;
+}
+
+if(isset($_GET["date"])&&$_GET["date"]!=null) 
+  $time = $_GET["date"];
+else
+  $time = date("Y-m-d\TH:i:s");
+
+header("Content-type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE ?role ?person ?pic ?concept
+WHERE {
+  OPTIONAL {
+    ?person tw:hasInterest <?=$instance?> .
+    ?person rdf:type foaf:Person .
+    ?person tw:hasRole ?role .
+    ?role tw:withAffiliation twi:TetherlessWorldConstellation .
+    ?role tw:hasDateTimeCoverage ?duration .
+    ?duration time:hasBeginning ?begininstant .
+    ?begininstant time:inXSDDateTime ?begintime .
+    OPTIONAL {
+      ?duration time:hasEnd ?endinstant .
+      ?endinstant time:inXSDDateTime ?endtime .
+    }
+    FILTER ( ! BOUND(?endtime) || ?endtime > "<?=$time?>"^^xsd:dateTime)
+    FILTER ( ?begintime < "<?=$time?>"^^xsd:dateTime)
+    ?person foaf:depiction ?pic .
+    OPTIONAL {
+      ?person tw:hasInterest ?concept .
+    }
+  }
+}
+

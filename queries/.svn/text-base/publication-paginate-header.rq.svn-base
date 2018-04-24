@@ -1,0 +1,30 @@
+<?php
+
+header("Content-type: text/plain");
+
+include_once("common.php");
+
+$year = null;
+$offset = null;
+$limit = null;
+
+if(isset($_GET["year"])) $year = $_GET["year"];
+if(isset($_GET["offset"])) $offset = $_GET["offset"];
+if(isset($_GET["limit"])) $limit = $_GET["limit"];
+
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX fn: <http://www.w3.org/2005/xpath-functions#>
+
+SELECT DISTINCT (fn:substring(str(?dateTime),1,4) as ?year) WHERE {
+  ?uri a tw:Publication .
+  ?uri tw:hasDate ?date .
+  ?date time:inXSDDateTime ?dateTime .
+}
+ORDER BY DESC(?year)

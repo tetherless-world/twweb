@@ -1,0 +1,48 @@
+<?php
+
+header("Content-type: text/plain");
+
+include_once("common.php");
+
+$year = null;
+$offset = null;
+$limit = null;
+
+if(isset($_GET["year"])) $year = $_GET["year"];
+if(isset($_GET["offset"])) $offset = $_GET["offset"];
+if(isset($_GET["limit"])) $limit = $_GET["limit"];
+
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX fn: <http://www.w3.org/2005/xpath-functions#>
+
+DESCRIBE ?uris ?author ?event ?super ?location ?journal ?publisher WHERE {
+  {
+    SELECT DISTINCT (?uri as ?uris) ?dateTime WHERE {
+      ?uri a tw:Presentation .
+      ?uri tw:hasDate ?date .
+      ?date time:inXSDDateTime ?dateTime .
+      <? if($year!=null) echo "FILTER(fn:substring(str(?dateTime),1,4)=\"$year\")\r\n"; ?>
+    }
+    ORDER BY DESC(?dateTime)
+    <? if($offset!=null) echo "OFFSET $offset\r\n"; ?>
+    <? if($limit!=null) echo "LIMIT $limit\r\n"; ?>
+  }
+  ?uris tw:hasAgentWithRole ?role .
+  ?author tw:hasRole ?role .
+  OPTIONAL {
+    ?uris tw:inEvent ?event .
+    OPTIONAL { ?event tw:hasLocation ?location }
+    OPTIONAL { ?event tw:inEvent ?super }
+  }
+  OPTIONAL {
+    ?uris tw:inDocument ?journal .
+    OPTIONAL { ?journal tw:hasPublisher ?publisher }
+  }
+}

@@ -1,0 +1,62 @@
+<?php
+
+include_once("common.php");
+
+if(isset($_GET["uri"])) {
+  $instance = "<" . sanitize($_GET["uri"],false) . ">";
+}
+else if(isset($_GET["i"])) {
+  $instance = "twi:" . sanitize($_GET["i"]);
+}
+else if(isset($_GET["s"])) {
+  $instance = "tw:" . sanitize($_GET["s"]);
+}
+else {
+  twerror();
+  $instance = "<?=\$instance?>" ;
+}
+
+header("Content-type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE <?=$instance?> ?concept ?prof ?proj ?pres ?lead ?logo ?org ?projconcept ?projlogo ?othertheme ?pi ?copi
+WHERE {
+  OPTIONAL {
+    <?=$instance?> tw:hasTopic ?concept .
+  }
+  <?=$instance?> tw:hasLeadProfessor ?prof .
+  OPTIONAL {
+    <?=$instance?> foaf:logo ?logo .
+  }
+  OPTIONAL {
+    ?proj tw:hasThemeReference <?=$instance?> .
+    ?proj rdf:type foaf:Project .
+    ?proj foaf:logo ?projlogo .
+    OPTIONAL {
+      ?proj tw:hasSponsor ?org .
+    }
+    OPTIONAL {
+      ?proj tw:hasAgentWithRole ?pirole .
+      ?pirole a tw:PrincipalInvestigator .
+      ?pi tw:hasRole ?pirole .
+    }
+    OPTIONAL {
+      ?proj tw:hasAgentWithRole ?copirole .
+      ?copirole a tw:CoInvestigator .
+      ?copi tw:hasRole ?copirole .
+    }
+    OPTIONAL {
+      ?proj tw:hasThemeReference ?othertheme .
+    }
+    OPTIONAL {
+      ?proj tw:hasTopic ?projconcept .
+    }
+  }
+}

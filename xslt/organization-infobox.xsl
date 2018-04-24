@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+  <!ENTITY foaf "http://xmlns.com/foaf/0.1/">
+]>
+<xsl:stylesheet
+   version="1.0"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:tw="&tw;"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:foaf="http://xmlns.com/foaf/0.1/"
+   xmlns:exsl="http://exslt.org/common"
+   xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:import href="/xslt/organization-common.xsl"/>
+  <xsl:import href="/xslt/image-common.xsl"/>
+  <xsl:template name="organization-infobox">
+    <xsl:param name="admin"/>
+    <xsl:param name="node"/>
+    <xsl:param name="embed"/>
+    <xsl:param name="root" select="/"/>
+    <div class="organization">
+    <div class="infobox">
+      <link href="/css/organization.css" type="text/css" rel="stylesheet"/>
+      <xsl:variable name="url-raw">
+	<xsl:call-template name="get-organization-link">
+	  <xsl:with-param name="organization" select="$node"/>
+	  <xsl:with-param name="root" select="$root"/>
+	</xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="url" select="exsl:node-set($url-raw)"/>
+      <xsl:variable name="image-raw">
+	<xsl:call-template name="get-organization-logo">
+	  <xsl:with-param name="organization" select="$node"/>
+	  <xsl:with-param name="root" select="$root"/>
+	</xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="image" select="exsl:node-set($image-raw)/*"/>
+      <table>
+	<tr><td colspan="2" class="header">
+	    <xsl:choose>
+		<xsl:when test="$url-raw!=''">
+		    <a href="{$url}">
+		    <xsl:call-template name="get-organization-acronym">
+			<xsl:with-param name="organization" select="$node"/>
+			<xsl:with-param name="style">full</xsl:with-param>
+		    </xsl:call-template>
+		    </a>
+		</xsl:when>
+		<xsl:otherwise>
+		    <xsl:call-template name="get-organization-acronym">
+			<xsl:with-param name="organization" select="$node"/>
+			<xsl:with-param name="style">full</xsl:with-param>
+		    </xsl:call-template>
+		</xsl:otherwise>
+	    </xsl:choose>
+	    <xsl:if test="$admin=true()">(<a href="">Edit</a>)</xsl:if>
+	</td></tr>
+	<xsl:if test="$image-raw!=''">
+	  <tr><td colspan="2" class="img">
+	    <xsl:choose>
+		<xsl:when test="$url-raw!=''">
+		    <a href="{$url}">
+		    <xsl:call-template name="place-image">
+			<xsl:with-param name="image" select="$image"/>
+		    </xsl:call-template>
+		    </a>
+		</xsl:when>
+		<xsl:otherwise>
+		    <xsl:call-template name="place-image">
+			<xsl:with-param name="image" select="$image"/>
+		    </xsl:call-template>
+		</xsl:otherwise>
+	    </xsl:choose>
+	</td></tr>
+	</xsl:if>
+	<xsl:if test="$url-raw!=''">
+	  <tr><td colspan="2" class="section">Contact Info</td></tr>
+	  <xsl:if test="$url-raw!=''">
+	      <tr>
+	        <td rowspan="{count($url/*)}">URL</td>
+		<td><a href="{$url}">
+		  <xsl:value-of select="$url" />
+		</a></td>
+	      </tr>
+	  </xsl:if>
+	</xsl:if>
+      </table>
+    </div>
+    </div>
+  </xsl:template>
+</xsl:stylesheet>

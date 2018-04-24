@@ -1,0 +1,68 @@
+.publications-paginate-header {
+  width: 90%;
+  word-wrap: break-word;
+  padding-top: 12pt;
+  padding-bottom: 12pt;
+}
+
+.publications-paginate-header :first-child {
+  border-left: 1pt solid lightgrey;
+}
+
+.publications-paginate-header span {
+  display: inline-block;
+  width: 48pt;
+  text-align: center;
+  color: #ccc;
+}
+
+.publications-paginate-header span + span {
+  border-left: 1pt solid lightgrey;
+}
+
+.publications-paginate-header span.yearOption {
+  text-decoration: underline;
+  color: #0000FF;
+  cursor: pointer;
+}
+
+.publications-paginate-header span.yearOption:hover {
+    background-color: #ffddff;
+}
+
+.publications-paginate-header span.selected {
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  cursor: auto;
+}
+
+.publications-paginate-footer {
+    width: 90%;
+    word-wrap: break-word;
+    padding-bottom: 12pt;
+    padding-top: 12pt;
+}
+
+.publications-paginate-footer span {
+    display: inline-block;
+    width: 2em;
+    text-align: center;
+}
+
+.publications-paginate-footer span.page {
+    text-decoration: underline;
+    color: #0000FF;
+    cursor: pointer;
+}
+
+.publications-paginate-footer span.page:hover {
+    background-color: #ffddff;
+}
+
+.publications-paginate-footer span.selected {
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    cursor: auto;
+}

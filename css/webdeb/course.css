@@ -1,0 +1,7 @@
+*[typeof="tw:Course"] span.title {
+    font-weight: bold;
+}
+
+*[typeof="tw:Course"] {
+    margin-bottom: 12px;
+}

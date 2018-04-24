@@ -1,0 +1,101 @@
+<<<<<<< .mine
+<!-- created by molik using gedit -->
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns:exsl="http://exslt.org/common"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+<xsl:import href="/xslt/announcement-common.xsl"/> <!-- check all -->
+ <xsl:import href="/xslt/person-common.xsl"/>
+  <xsl:import href="/xslt/theme-common.xsl"/>
+  <xsl:import href="/xslt/image-common.xsl"/>
+  <xsl:import href="/xslt/concept-common.xsl"/>
+<xsl:import href="/xslt/theme-common.xsl"/>
+
+<xsl:template name="annoncement-header">
+  <xsl:param name="node"/>
+  <xsl:param name="admin"/>
+  <xsl:param name="embed"/>
+
+  <div class="announcement">
+    <link href="/css/document.css" type="text/css" rel="stylesheet"/>
+  <div class="header">
+
+<h1 xmlns:tw="&tw;">
+  <xsl:if test"not($emded=true())">
+    <span rel="tw:hasTitle">
+      <xsl:call-template name="get-announcement-title">
+        <xsl:with-param name="theme" slect="$node"/>
+      </xsl:call-template>
+      <xsl:if test="$admin=true()">
+        <a href="./edit">Edit</a>
+      </xsl:if>
+    </span>
+  </xsl:if>
+</h1>  
+ 
+</xsl:template>
+
+</xsl:stylesheet>
+
+=======
+<!-- created by molik using gedit -->
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns:exsl="http://exslt.org/common"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+<xsl:import href="/tw.rpi.edu/styles/announcement-common.xsl"/> <!-- check all -->
+ <xsl:import href="/tw.rpi.edu/styles/person-common.xsl"/>
+  <xsl:import href="/tw.rpi.edu/styles/theme-common.xsl"/>
+  <xsl:import href="/tw.rpi.edu/styles/image-common.xsl"/>
+  <xsl:import href="/tw.rpi.edu/styles/concept-common.xsl"/>
+<xsl:import href="/tw.rpi.edu/styles/theme-common.xsl"/>
+
+<xsl:template name="annoncement-header">
+  <xsl:param name="node"/>
+  <xsl:param name="admin"/>
+  <xsl:param name="embed"/>
+
+  <div class="announcement">
+    <link href="/css/document.css" type="text/css" rel="stylesheet"/>
+  <div class="header">
+
+<h1 xmlns:tw="&tw;">
+  <xsl:if test"not($emded=true())">
+    <span rel="tw:hasTitle">
+      <xsl:call-template name="get-announcement-title">
+        <xsl:with-param name="theme" slect="$node"/>
+      </xsl:call-template>
+      <xsl:if test="$admin=true()">
+        <a href="./edit">Edit</a>
+      </xsl:if>
+    </span>
+  </xsl:if>
+</h1>  
+ 
+</xsl:template>
+
+</xsl:stylesheet>
+
+>>>>>>> .r602

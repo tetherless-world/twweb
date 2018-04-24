@@ -1,0 +1,23 @@
+AddType text/xsl .xsl
+
+Options -Multiviews
+
+Header set Cache-Control "max-age=5"
+
+RewriteEngine On
+RewriteBase /xslt
+
+RewriteCond %{QUERY_STRING} ^r=(.*)$
+RewriteRule ^generate/(.+) generate.php?q=$1&r=%1 [L]
+RewriteRule ^generate/(.+) generate.php?q=$1 [L]
+RewriteRule ^generate/$ generate.php?q=empty.xsl [L]
+
+RewriteCond %{QUERY_STRING} ^r=(.*)$
+RewriteRule ^embed/(.+)\.xsl embed.php?type=$1&r=%1 [L]
+RewriteRule ^embed/(.+)\.xsl embed.php?type=$1 [L]
+RewriteRule ^embed/$ embed.php?type=empty.xsl [L]
+
+RewriteCond %{QUERY_STRING} ^(.+)$
+RewriteRule ^section/(.+)\.xsl section.php?q=$1&%1 [L]
+RewriteRule ^section/(.+)\.xsl section.php?q=$1 [L]
+RewriteRule ^section/$ section.php?q=empty.xsl [L]

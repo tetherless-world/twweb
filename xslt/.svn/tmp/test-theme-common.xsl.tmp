@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns:exsl="http://exslt.org/common"
+		xmlns:fn="http://www.w3.org/2005/xpath-functions"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+  <xsl:import href="/xslt/concept-common.xsl"/>
+  <xsl:import href="/xslt/theme-common.xsl"/>
+  <xsl:import href="/xslt/publication-common.xsl"/>
+  <xsl:import href="/xslt/image-common.xsl"/>
+  <xsl:import href="/xslt/section-general.xsl"/>
+
+  <xsl:template name="run-theme-tests">
+    <xsl:param name="theme"/>
+    <p>
+      <xsl:text>Name: </xsl:text>
+      <xsl:call-template name="get-theme-name">
+	<xsl:with-param name="theme" select="$theme"/>
+      </xsl:call-template>
+    </p>
+    <p>
+      <xsl:text>Lead Professor: </xsl:text>
+      <xsl:variable name="prof-raw">
+	<xsl:call-template name="get-theme-lead-prof">
+	  <xsl:with-param name="theme" select="$theme"/>
+	  <xsl:with-param name="root" select="/"/>
+	</xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="prof" select="exsl:node-set($prof-raw)/*"/>
+      <xsl:call-template name="get-person-name">
+	<xsl:with-param name="person" select="$prof"/>
+      </xsl:call-template>
+    </p>
+    <p>
+      <xsl:text>Logo: </xsl:text>
+      <xsl:variable name="logo-raw"><xsl:call-template name="get-theme-logo"><xsl:with-param name="theme" select="$theme"/></xsl:call-template></xsl:variable>
+      <xsl:variable name="logo" select="exsl:node-set($logo-raw)/*"/>
+      <xsl:call-template name="place-image">
+	<xsl:with-param name="image" select="$logo"/>
+      </xsl:call-template>
+    </p>
+    <p>
+      <xsl:text>Description: </xsl:text>
+      <xsl:call-template name="get-theme-description">
+	<xsl:with-param name="theme" select="$theme"/>
+      </xsl:call-template>
+    </p>
+    <p>
+      <xsl:text>Projects:</xsl:text>
+    </p>
+    <xsl:variable name="projects-raw"><xsl:call-template name="get-theme-projects"><xsl:with-param name="theme" select="$theme"/></xsl:call-template></xsl:variable>
+    <xsl:variable name="projects" select="exsl:node-set($projects-raw)"/>
+    <table>
+      <xsl:for-each select="$projects/*">
+	<tr><td>
+	<xsl:call-template name="get-theme-name">
+	  <xsl:with-param name="theme" select="current()"/>
+	</xsl:call-template>
+	</td></tr>
+      </xsl:for-each>
+    </table>
+
+    <xsl:variable name="publications-raw"><xsl:call-template name="get-theme-publications"><xsl:with-param name="theme" select="$theme"/></xsl:call-template></xsl:variable>
+    <xsl:variable name="publications" select="exsl:node-set($publications-raw)"/>
+    <xsl:if test="$publications-raw!=''">
+    <p>
+      <xsl:text>Publications:</xsl:text>
+    </p>
+    <table>
+      <xsl:variable name="root" select="/"/>
+      <xsl:for-each select="$publications/*">
+	<tr><td>
+	<xsl:call-template name="get-publication-citation">
+	  <xsl:with-param name="publication" select="current()"/>
+	  <xsl:with-param name="root" select="$root"/>
+	</xsl:call-template>
+	</td></tr>
+      </xsl:for-each>
+    </table>
+    </xsl:if>
+    <xsl:variable name="presentations-raw"><xsl:call-template name="get-theme-presentations"><xsl:with-param name="theme" select="$theme"/></xsl:call-template></xsl:variable>
+    <xsl:variable name="presentations" select="exsl:node-set($presentations-raw)"/>
+    <xsl:if test="$presentations-raw!=''">
+      <p>
+	<xsl:text>Presentations:</xsl:text>
+      </p>
+      <table>
+	<xsl:variable name="root" select="/"/>
+	<xsl:for-each select="$publications/*">
+	  <tr><td>
+	  <xsl:call-template name="get-presentation-citation">
+	    <xsl:with-param name="presentation" select="current()"/>
+	    <xsl:with-param name="root" select="$root"/>
+	  </xsl:call-template>
+	  </td></tr>
+	</xsl:for-each>
+      </table>
+    </xsl:if>
+
+    <xsl:variable name="concepts-raw"><xsl:call-template name="get-theme-concepts"><xsl:with-param name="theme" select="$theme"/></xsl:call-template></xsl:variable>
+    <xsl:variable name="concepts" select="exsl:node-set($concepts-raw)"/>
+    <xsl:if test="$concepts-raw!=''">
+      <p>
+	<xsl:text>Concepts:</xsl:text>
+      </p>
+      <table>
+	<xsl:variable name="root" select="/"/>
+	<xsl:for-each select="$concepts/*">
+	  <xsl:sort select="tw:hasName"/>
+	  <a href="{current()/@rdf:about}">
+	  <xsl:call-template name="get-concept-name">
+	    <xsl:with-param name="concept" select="current()"/>
+	    <xsl:with-param name="root" select="$root"/>
+	  </xsl:call-template>
+	  </a>
+	  <xsl:if test="position()!=last()">
+	    <xsl:text>, </xsl:text>
+	  </xsl:if>
+	</xsl:for-each>
+      </table>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="/">
+    <html>
+      <body>
+	<xsl:call-template name="run-theme-tests">
+	  <xsl:with-param name="theme" select="//*[@rdf:about='&here;xInformatics']"/>
+	</xsl:call-template>
+      </body>
+    </html>
+  </xsl:template>
+</xsl:stylesheet>

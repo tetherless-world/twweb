@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+  <!ENTITY foaf "http://xmlns.com/foaf/0.1/">
+]>
+<xsl:stylesheet
+   version="1.0"
+   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:tw="&tw;"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:dc="http://purl.org/dc/terms/"
+   xmlns:foaf="&foaf;"
+   xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:import href="/xslt/organization-common.xsl"/>
+  <xsl:template name="organization-list-item">
+    <xsl:param name="admin"/>
+    <xsl:param name="node"/>
+    <xsl:param name="rdfa" select="false()"/>
+    <tr class="organization-list-item" about="{$node/@rdf:about}" typeof="foaf:Organization">
+      <td rel="foaf:logo">
+	<xsl:choose>
+	  <xsl:when test="$node/foaf:logo/@rdf:resource">
+	    <xsl:call-template name="place-image">
+	      <xsl:with-param name="image" select="//*[@rdf:about=$node/foaf:logo/@rdf:resource]"/>
+	      <xsl:with-param name="class">thumb</xsl:with-param>
+	      <xsl:with-param name="rdfa">foaf:logo</xsl:with-param>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:when test="$node/foaf:logo/@rdf:nodeID">
+	    <xsl:call-template name="place-image">
+	      <xsl:with-param name="image" select="//*[@rdf:nodeID=$node/foaf:logo/@rdf:nodeID]/*/.."/>
+	      <xsl:with-param name="class">thumb</xsl:with-param>
+	      <xsl:with-param name="rdfa">foaf:logo</xsl:with-param>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:when test="$node/foaf:logo/*">
+	    <xsl:call-template name="place-image">
+	      <xsl:with-param name="image" select="$node/foaf:logo/*"/>
+	      <xsl:with-param name="class">thumb</xsl:with-param>
+	      <xsl:with-param name="rdfa">foaf:logo</xsl:with-param>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <img class="thumb" src="https://tw.rpi.edu/img_avtrs/Unknown_AVTR.jpg"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </td>
+      <td>
+	<xsl:call-template name="place-organization-link">
+	  <xsl:with-param name="organization" select="$node"/>
+	</xsl:call-template>
+	<xsl:if test="$node/tw:hasAcronym">
+	  (<span property="tw:hasAcronym"><xsl:value-of select="$node/tw:hasAcronym"/></span>)
+	</xsl:if>
+      </td>
+      <td>
+	Website: <a href="{$node/dc:source/@rdf:resource}" rel="foaf:homepage"><xsl:value-of select="$node/dc:source/@rdf:resource"/></a>
+      </td>
+    </tr>
+    <xsl:for-each select="$node/tw:hasParentOrganization">
+      <xsl:choose>	
+	<xsl:when test="$node/tw:hasParentOrganization/@rdf:resource">
+	  <xsl:variable name="resource" select="$node/tw:hasParentOrganization/@rdf:resource"/>
+	  <xsl:call-template name="organization-list-item">
+	    <xsl:with-param name="admin" select="$admin"/>
+	    <xsl:with-param name="node" select="//*[@rdf:about=$resource]"/>
+	  </xsl:call-template>
+	</xsl:when>
+	<xsl:when test="$node/tw:hasParentOrganization/*">
+	  <xsl:call-template name="organization-list-item">
+	    <xsl:with-param name="admin" select="$admin"/>
+	    <xsl:with-param name="node" select="$node/tw:hasParentOrganization/*"/>
+	  </xsl:call-template>
+	</xsl:when>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:template>
+</xsl:stylesheet>

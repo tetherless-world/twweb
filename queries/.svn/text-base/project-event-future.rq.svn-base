@@ -1,0 +1,47 @@
+<?php
+
+include_once("common.php");
+
+if(isset($_GET["uri"])) {
+  $instance = "<" . sanitize($_GET["uri"],false) . ">";
+}
+else if(isset($_GET["i"])) {
+  $instance = "twi:" . sanitize($_GET["i"]);
+}
+else {
+  $instance = "?y" ;
+}
+
+# time is two months from now. query for any events that begin more than
+# two months from now.
+$time = date("Y-m-d\TH:i:s\Z", mktime(date('H'), date('i'), date('s'), date('m')+2, date('d'), date('Y') ) ) ;
+
+header("Content-Type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE ?event ?concept
+WHERE
+{
+  { ?event rdf:type tw:Meeting . } UNION { ?event rdf:type tw:TWeD . } UNION { ?event rdf:type tw:Seminar . } UNION { ?event rdf:type tw:Conference . } UNION { ?event rdf:type tw:Workshop . } UNION { ?event rdf:type tw:Symposium . } UNION { ?event rdf:type tw:CourseClass . }  UNION { ?event rdf:type tw:Hackathon . } UNION { ?event rdf:type tw:Partay . }
+  ?event tw:hasProjectReference <?=$instance?>
+  OPTIONAL {
+    ?event tw:hasTopic ?concept .
+  }
+  ?event tw:hasDateTimeCoverage ?dt .
+  ?dt time:hasBeginning ?beginning .
+  ?beginning time:inXSDDateTime ?bdt .
+  ?dt time:hasEnd ?ending .
+  ?ending time:inXSDDateTime ?edt .
+  FILTER(?bdt >= "<?=$time?>"^^xsd:dateTime).
+
+}
+

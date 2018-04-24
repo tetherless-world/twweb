@@ -1,0 +1,45 @@
+<?php
+include_once("../common.php");
+
+header("Content-type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE ?publication ?proj ?pubindirect ?dat ?date ?project ?rol ?role ?person ?author
+WHERE {
+	?proj tw:hasTopic <http://tw.rpi.edu/instances/WebScienceConcept> .
+	?proj rdf:type foaf:Project .
+	OPTIONAL {
+		?pubindirect tw:hasProjectReference ?proj .
+		?pubindirect rdf:type tw:Publication .
+		OPTIONAL {
+			?pubindirect tw:hasDate ?dat .
+		}
+		OPTIONAL {
+			?pubindirect tw:hasAgentWithRole ?rol .
+			OPTIONAL {
+				?person tw:hasRole ?rol .
+			}
+		}
+	}
+	?publication tw:hasTopic <http://tw.rpi.edu/instances/WebScienceConcept> .
+	?publication rdf:type tw:Publication .
+	OPTIONAL {
+		?publication tw:hasAgentWithRole ?role .
+		OPTIONAL {
+			?author tw:hasRole ?role .
+		}
+	}
+	OPTIONAL {
+		?publication tw:hasProjectReference ?project .
+	}
+	OPTIONAL {
+		?publication tw:hasDate ?date .
+	}
+}

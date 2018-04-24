@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+  <!ENTITY here "http://tw.rpi.edu/instances/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns:exsl="http://exslt.org/common"
+		xmlns:fn="http://www.w3.org/2005/xpath-functions"
+		xmlns:dc="http://purl.org/dc/terms/"
+		xmlns:xsd="http://www.w3.org/1999/xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+  <xsl:import href="/xslt/document-common.xsl"/>
+  <xsl:template name="get-presentation-date">
+    <xsl:param name="presentation"/>
+    <xsl:param name="root"/>
+    <xsl:choose>
+      <xsl:when test="$presentation/tw:hasPresentationDate/@rdf:resource">
+	<xsl:value-of select="$root//*[@rdf:about=$presentation/tw:hasPresentationDate/@rdf:resource]/time:inXSDDateTime"/>
+      </xsl:when>
+      <xsl:when test="$presentation/tw:hasPresentationDate/*">
+	<xsl:value-of select="$presentation/tw:hasPresentationDate/*/time:inXSDDateTime"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="'????'"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get-presentation-event">
+    <xsl:param name="presentation"/>
+    <xsl:param name="root"/>
+    <xsl:choose>
+      <xsl:when test="$presentation/tw:hasPresentationEvent/@rdf:resource">
+	<xsl:copy-of select="$root//*[@rdf:about=$presentation/tw:hasPresentationEvent/@rdf:resource]"/>
+      </xsl:when>
+      <xsl:when test="$presentation/tw:hasPresentationEvent/*">
+	<xsl:copy-of select="$presentation/tw:hasPresentationEvent/*"/>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get-presentation-citation">
+    <xsl:param name="presentation"/>
+    <xsl:param name="root" select="/"/>
+    <xsl:variable name="authors-raw">
+      <xsl:call-template name="get-document-authors">
+	<xsl:with-param name="document" select="$presentation"/>
+	<xsl:with-param name="root" select="$root"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="authors" select="exsl:node-set($authors-raw)"/>
+    <xsl:variable name="title">
+      <xsl:call-template name="get-document-title">
+	<xsl:with-param name="document" select="$presentation"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="pubdate">
+      <xsl:call-template name="get-presentation-date">
+	<xsl:with-param name="presentation" select="$presentation"/>
+	<xsl:with-param name="root" select="$root"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="pubevent-raw">
+      <xsl:call-template name="get-presentation-event">
+	<xsl:with-param name="presentation" select="$presentation"/>
+	<xsl:with-param name="root" select="$root"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="pubevent" select="exsl:node-set($pubevent-raw)"/>
+    <span about="{$presentation/@rdf:about}" typeof="tw:Presentation">
+    <xsl:for-each select="$authors/*">
+      <xsl:if test="position()=last() and last()!=1">
+	<xsl:text>&amp; </xsl:text>
+      </xsl:if>
+      <span about="{current()/@rdf:about}" typeof="foaf:Person">
+	<xsl:call-template name="place-person-link">
+	  <xsl:with-param name="person" select="current()"/>
+	  <xsl:with-param name="style">last,fi</xsl:with-param>
+	  <xsl:with-param name="rdfa" select="true()"/>
+	</xsl:call-template>
+	<span rel="tw:hasRole">
+	  <span typeof="tw:Presenter">
+	    <span rel="tw:presented" resource="{$presentation/@rdf:about}"/>
+	    <span rev="tw:hasAgentWithRole" resource="{$presentation/@rdf:about}"/>
+	  </span>
+	</span>
+      </span>
+      <xsl:choose>
+	<xsl:when test="position()=last()">
+	  <xsl:text> </xsl:text>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:text>, </xsl:text>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+    <xsl:text>(</xsl:text>
+    <span rel="tw:hasPresentationDate"><span typeof="time:Instant"><span property="time:inXSDDateTime" datatype="xsd:dateTime" content="{$pubdate}"><xsl:value-of select="substring($pubdate,1,4)"/></span></span></span>
+    <xsl:text>). </xsl:text>
+    <a href="{$presentation/@rdf:about}" property="dc:title">
+      <xsl:value-of select="$title"/>
+    </a>
+    <xsl:text>. In: </xsl:text>
+    <span rel="tw:hasPresentationEvent">
+    <span about="{$pubevent/*/@rdf:about}">
+      <xsl:variable name="event-page">
+	<xsl:call-template name="get-event-page">
+	  <xsl:with-param name="event" select="$pubevent/*"/>
+	</xsl:call-template>
+      </xsl:variable>
+    <a href="{$event-page}" rel="foaf:page">
+    <xsl:call-template name="event-name">
+      <xsl:with-param name="event" select="$pubevent/*"/>
+      <xsl:with-param name="root" select="$root"/>
+    </xsl:call-template>
+    </a>
+    </span>
+    </span>
+    <xsl:text>.</xsl:text>
+    </span>
+  </xsl:template>
+</xsl:stylesheet>

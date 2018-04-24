@@ -1,0 +1,119 @@
+<<<<<<< .mine
+<!-- created by molik using gedit -->
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+  
+  <xsl:import href="/xslt/announcement-common.xsl"/>
+
+  <xsl:template name="announcement-description">
+    <xsl:param name="node"/>
+    <xsl:param name="admin"/>
+    <xsl:param name="embed"/>
+
+
+  <div class="announcement">
+      <link href="/css/document.css" type="text/css" rel="stylesheet"/>
+      <link href="/css/objects.css" type="text/css" rel="stylesheet"/>
+    <div class="description section" id="announcement-description">
+
+
+  <xsl:call-template name="get-announcement-author">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  <xsl:call-template name="get-announcement-URL">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  <!-- <xsl:call-template name="get-announcement-in-the-news">
+  </xsl:call-template>
+ 
+  <xsl:call-template name="get-announcement-TWAnnouncement">
+  </xsl:call-template> -->
+
+  <xsl:call-template name="get-announcement-themes">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  <xsl:call-template name="get-announcement-projects">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  <xsl:call-template name="get-announcment-topics">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  </template>
+</stylesheet>
+=======
+<!-- created by molik using gedit -->
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+  
+  <xsl:import href="/tw.rpi.edu/styles/announcement-common.xsl"/>
+
+  <xsl:template name="announcement-description">
+    <xsl:param name="node"/>
+    <xsl:param name="admin"/>
+    <xsl:param name="embed"/>
+
+
+  <div class="announcement">
+      <link href="/css/document.css" type="text/css" rel="stylesheet"/>
+      <link href="/css/objects.css" type="text/css" rel="stylesheet"/>
+    <div class="description section" id="announcement-description">
+
+
+  <xsl:call-template name="get-announcement-author">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  <xsl:call-template name="get-announcement-URL">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  <!-- <xsl:call-template name="get-announcement-in-the-news">
+  </xsl:call-template>
+ 
+  <xsl:call-template name="get-announcement-TWAnnouncement">
+  </xsl:call-template> -->
+
+  <xsl:call-template name="get-announcement-themes">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  <xsl:call-template name="get-announcement-projects">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  <xsl:call-template name="get-announcment-topics">
+    <xsl:with-param name="stylesheet">announcement-description</xsl:with-param>
+  </xsl:call-template>
+
+  </template>
+</stylesheet>
+>>>>>>> .r602

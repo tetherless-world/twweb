@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY tw "http://tw.rpi.edu/schema/">
+]>
+<xsl:stylesheet version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		xmlns:tw="&tw;"
+		xmlns:time="http://www.w3.org/2006/time#"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:s="http://www.w3.org/2005/sparql-results#"
+		xmlns:foaf="http://xmlns.com/foaf/0.1/"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+
+  <!-- Retrieves the url for the specified image.
+
+       Templates should call this template instead of expecting a particular
+       DOM tree to be present -->
+  <xsl:template name="image-url">
+    <xsl:param name="image"/>
+    <xsl:value-of select="$image/@rdf:about"/>
+  </xsl:template>
+
+  <!-- Tries to find an appropriate alternate title for an <img> tag.
+       
+       Templates should call this template instead of expecting a particular
+       DOM tree to be present -->
+  <xsl:template name="image-title">
+    <xsl:param name="image"/>
+    <xsl:choose>
+      <xsl:when test="$image/foaf:name">
+	<xsl:value-of select="$image/foaf:name"/>
+      </xsl:when>
+      <xsl:when test="$image/rdfs:label">
+	<xsl:value-of select="$image/rdfs:label"/>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Places an image tag in the current output stream. Calling template can 
+       specify image object and style/class information for CSS integration -->
+  <xsl:template name="place-image">
+    <xsl:param name="image"/>
+    <xsl:param name="style"/>
+    <xsl:param name="class"/>
+    <xsl:param name="property"/>
+    <xsl:param name="call-image-url-template" select="true()"/>
+
+    <xsl:param name="rdfa" select="false()"/>	
+    <xsl:variable name="url"><xsl:call-template name="image-url"><xsl:with-param name="image" select="$image"/></xsl:call-template></xsl:variable>
+    <xsl:variable name="title"><xsl:call-template name="image-title"><xsl:with-param name="image" select="$image"/></xsl:call-template></xsl:variable>
+    
+    <img src="{$url}" alt="{$title}">
+      <xsl:if test="$rdfa!=false()">
+	<xsl:attribute name="rel">
+	  <xsl:value-of select="$rdfa"/>
+	</xsl:attribute>
+      </xsl:if>
+      <xsl:if test="$class">
+	<xsl:attribute name="class">
+	  <xsl:value-of select="$class"/>
+	</xsl:attribute>
+      </xsl:if>
+      <xsl:if test="$property">
+	<xsl:attribute name="property">
+	  <xsl:value-of select="$property"/>
+	</xsl:attribute>
+      </xsl:if>
+      <xsl:if test="$style">
+	<xsl:attribute name="style">
+	  <xsl:value-of select="$style"/>
+	</xsl:attribute>
+      </xsl:if>
+    </img>
+<!--
+    <xsl:choose>
+      <xsl:when test="$rdfa=false()">
+	<xsl:if test="$call-image-url-template=false()">
+	  <img src="{$image}" alt="{$title}">
+	  <xsl:if test="$style!=''">
+	    <xsl:attribute name="style" select="$style"/>
+	  </xsl:if>
+	  <xsl:if test="$class!=''">
+	    <xsl:attribute name="class" select="$class"/>
+	  </xsl:if>
+	  </img>
+	</xsl:if>
+	<xsl:if test="$call-image-url-template=true()">
+	  <img src="{$url}" alt="{$title}">
+	  <xsl:if test="$style!=''">
+	    <xsl:attribute name="style" select="$style"/>
+	  </xsl:if>
+	  <xsl:if test="$class!=''">
+	    <xsl:attribute name="class">
+	      <xsl:value-of select="$class"/>
+	    </xsl:attribute>
+	  </xsl:if>
+	  </img>
+	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:if test="$call-image-url-template=false()">
+	  <img src="{$image}" alt="{$title}" rel="{$rdfa}">
+	  <xsl:if test="$style!=''">
+	    <xsl:attribute name="style" select="$style"/>
+	  </xsl:if>
+	  <xsl:if test="$class!=''">
+	    <xsl:attribute name="class" select="$class"/>
+	  </xsl:if>
+	  </img>
+	</xsl:if>
+	<xsl:if test="$call-image-url-template=true()">
+	  <img src="{$url}" alt="{$title}" rel="{$rdfa}">
+	  <xsl:if test="$style!=''">
+	    <xsl:attribute name="style" select="$style"/>
+	  </xsl:if>
+	  <xsl:if test="$class!=''">
+	    <xsl:attribute name="class">
+	      <xsl:value-of select="$class"/>
+	    </xsl:attribute>
+	  </xsl:if>
+	  </img>
+	</xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
+-->
+  </xsl:template>
+</xsl:stylesheet>

@@ -1,0 +1,25 @@
+.person-list {
+    width: auto;
+    margin: 0.5em 0;
+}
+
+.person-list tbody {
+    border:0;
+}
+
+.person-list .thumb {
+  width: 75px;
+}
+
+.person-list td {
+    padding: 2px;
+}
+
+.person-list td.center {
+  text-align: center;
+}
+
+tr.person-list-item:hover {
+  background-color: #ffddff;
+}
+

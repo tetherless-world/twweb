@@ -1,0 +1,86 @@
+.event-list {
+  border-collapse: collapse;
+}
+
+.event-list-item td {
+  padding: 8px;
+}
+
+.event-list-item {
+  font-size: 9pt;
+}
+
+.event-list-item a {
+  color: #3333cc;
+  text-decoration: none;
+}
+
+.event-list-item a.title:hover {
+  text-decoration: underline;
+}
+
+.event-list-item img {
+  border: 0;
+}
+
+.event-list-item .title {
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.event-list-item td {
+  max-width: 100%;
+}
+
+tr.event-list-item {
+    border-top: 1px solid #ccc;
+}
+
+tr.event-list-item:first-child {
+    border-top: 0;
+}
+
+tr.event-list-item:hover {
+  background-color: #eeffee;
+}
+
+.event-list-item a.edit {
+  font-size: 8pt;
+  float: right;
+  clear: right;
+}
+
+.event .header .thumb 
+{ 
+  float: right;
+  max-width: 150px;
+  margin: 16px;
+  margin-top: 0px;
+ }
+
+.event .header .lead {
+    margin: 4px;
+    font-size: 9pt;
+}
+
+.event .header .related {
+    margin: 4px;
+    font-size: 9pt;
+}
+
+.event span.label {
+    font-weight: bold;
+}
+
+.event .header h1 {
+    margin-bottom: 0px;
+}
+
+.event .description {
+    padding-top: 12pt;
+    padding-bottom: 12pt;
+}
+
+.event span.passdue {
+    text-decoration: line-through;
+}

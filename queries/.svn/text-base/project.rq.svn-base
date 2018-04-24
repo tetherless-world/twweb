@@ -1,0 +1,69 @@
+<?php
+
+include_once("common.php");
+
+if(isset($_GET["uri"])) {
+  $instance = "<" . sanitize($_GET["uri"],false) . ">";
+}
+else if(isset($_GET["i"])) {
+  $instance = "twi:" . sanitize($_GET["i"]);
+}
+else if(isset($_GET["s"])) {
+  $instance = "tw:" . sanitize($_GET["s"]);
+}
+else {
+  twerror();
+  $instance = "<?=\$instance?>" ;
+}
+
+if(isset($_GET["date"]) && $_GET["date"]!=null) 
+  $time = $_GET["date"];
+else
+  $time = date("Y-m-d\TH:i:s");
+
+header("Content-type: text/plain");
+?>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tw: <http://tw.rpi.edu/schema/>
+PREFIX twi: <http://tw.rpi.edu/instances/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE <?=$instance?> ?concept ?logo ?pi ?theme ?sponsor ?logo2
+WHERE {
+  OPTIONAL {
+    <?=$instance?> tw:hasTopic ?concept .
+  }
+  OPTIONAL {
+    <?=$instance?> foaf:logo ?logo .
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasAgentWithRole ?role .
+    ?role rdf:type tw:Collaborator .
+    ?pi tw:hasRole ?role .
+    ?pi rdf:type foaf:Person .
+    ?role tw:hasDateTimeCoverage ?duration .
+    ?duration time:hasBeginning ?begininstant .
+    ?begininstant time:inXSDDateTime ?begintime .
+    OPTIONAL
+    {
+      ?duration time:hasEnd ?endinstant .
+      ?endinstant time:inXSDDateTime ?endtime .
+    }
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasThemeReference ?theme .
+  }
+  OPTIONAL {
+    <?=$instance?> tw:hasSponsor ?sponsor .
+    OPTIONAL {
+      ?sponsor foaf:logo ?logo2 .
+    }
+  }
+  FILTER ( ! BOUND(?endtime) || ?endtime > "<?=$time?>"^^xsd:dateTime)
+  FILTER ( ! BOUND(?begintime) || ?begintime < "<?=$time?>"^^xsd:dateTime)
+}
