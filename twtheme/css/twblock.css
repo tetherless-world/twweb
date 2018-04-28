@@ -1,0 +1,77 @@
+.block-twsparql {
+    
+}
+
+.block-twsparql table {
+    text-align: center;
+    border: 1px solid #88aaff;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.block-twsparql table td {
+    padding: 1px;
+    font-size: 100%;
+    background-color: #eeffee;
+    text-align: center;
+    color: black;
+}
+
+.block-twsparql table th {
+    padding: 1px;
+    text-align: center;
+}
+
+.block-twsparql table th.title {
+    padding: 1px;
+    font-size: 150%;
+    background-color: #66cc66;
+    margin-bottom: 5px;
+    height: 30px;
+}
+
+.block-twsparql table th.section {
+    padding: 1px;
+    font-size: 125%;
+    background-color: #75c585;
+    color: #000000;
+}
+
+.block-twsparql table th a {
+    color: #494949;
+}
+
+.block-twsparql table td img {
+    width: 180px;
+}
+
+.block-twsparql table td a {
+  color: #000000;
+}
+
+.block-twsparql table td a {
+  color: #000000;
+  border-bottom: 0px;
+}
+
+.block-twsparql table td a:hover {
+  border-bottom: 1px dotted;
+}
+
+.section .header h1 span {
+  visibility: visible;
+  float: none;
+}
+
+.block-twsparql table td a .header {
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.block-twsparql table td a .header h1 {
+  padding-top: 0px;
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+

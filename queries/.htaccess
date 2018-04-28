@@ -1,4 +1,4 @@
-AddHandler php5-script rq
+AddHandler php7-script rq
 
 Options +Indexes
 
