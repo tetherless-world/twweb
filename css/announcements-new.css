@@ -1,0 +1,94 @@
+.tw-on-the-web {
+  background-color: lightgray;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.tw-on-the-web-main {
+  background-color: #dce4f9;
+  border-radius: 10px;
+  padding: 10px;
+  flex: 1;
+  margin: 10px;
+  min-width: 300px;
+  min-height: 288px;
+}
+
+.tw-on-the-web-title {
+  font-weight: 900;
+  font-size: 12pt;
+  border-bottom: 2px solid white;
+}
+
+.tw-announcement-controls {
+  text-align: right;
+}
+
+.tw-announcement-control {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  background-image: url(/images/ui-icons_469bdd_256x240.png);
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-indent: -99999px;
+  display: inline-block;
+}
+
+.tw-go-left {
+  background-position: -96px -192px;
+}
+
+.tw-pause {
+  background-position: -16px -160px;
+}
+
+.tw-play {
+  background-position: 0 -160px;
+}
+
+.tw-go-right {
+  background-position: -64px -192px;
+}
+
+.tw-announcement {
+  font-size: 12px;
+  min-height: 200px;
+  max-height: 200px;
+  border-bottom: 2px solid white;
+}
+
+.tw-announcement-visible {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.tw-announcement-hidden {
+  display: none;
+}
+
+.tw-announcement-depiction {
+  flex: 1;
+  margin: auto;
+}
+
+.tw-announcement-info {
+  flex: 1;
+  margin: auto;
+}
+
+.tw-announcement-title {
+  font-size: 10pt;
+}
+
+.tw-announcement-date {
+  font-size: 7pt;
+  color: #acacac;
+  margin-top: 10px;
+}
+
+.tw-announcement-blank {
+  height: 20px;
+}
